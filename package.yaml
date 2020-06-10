@@ -1,10 +1,10 @@
 name:                discord-test
 version:             0.1.0.0
-github:              "githubuser/discord-test"
+github:              "oscar-h64/discord-test"
 license:             BSD3
-author:              "Author name here"
-maintainer:          "example@example.com"
-copyright:           "2020 Author name here"
+author:              "Oscar Harris"
+maintainer:          "oscar@oscar-h.com"
+copyright:           "2020 OscarHarris"
 
 extra-source-files:
 - README.md
@@ -17,7 +17,7 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/githubuser/discord-test#readme>
+description:         Please see the README on GitHub at <https://github.com/oscar-h64/discord-test#readme>
 
 dependencies:
 - base >= 4.7 && < 5
