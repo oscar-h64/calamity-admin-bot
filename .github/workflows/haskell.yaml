@@ -8,6 +8,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    steps:
     - name: Install the Haskell Stack 
       run: |
         mkdir -p ~/.local/bin
