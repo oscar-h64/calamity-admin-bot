@@ -44,7 +44,7 @@ jobs:
         export PATH=$HOME/.local/bin:$PATH
         stack --no-terminal --install-ghc build --only-dependencies --fast
 
-    - name: Build Wishlist
+    - name: Build Bot
       run: |
         export PATH=$HOME/.local/bin:$PATH
         stack build --fast
