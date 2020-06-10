@@ -33,18 +33,22 @@ jobs:
         restore-keys: |
           stackwork-${{ runner.os }}-stack
           stackwork-${{ runner.os }}      
+
     - name: Install GHC 
       run: |
         export PATH=$HOME/.local/bin:$PATH
         stack --no-terminal --install-ghc setup
+
     - name: Install dependencies
       run: |
         export PATH=$HOME/.local/bin:$PATH
         stack --no-terminal --install-ghc build --only-dependencies --fast
+
     - name: Build Wishlist
       run: |
         export PATH=$HOME/.local/bin:$PATH
         stack build --fast
+
     - name: Run tests 
       run: |
         stack test --fast
