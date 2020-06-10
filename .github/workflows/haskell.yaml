@@ -9,6 +9,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v1 
+      with:
+        submodules: true
+
     - name: Install the Haskell Stack 
       run: |
         mkdir -p ~/.local/bin
@@ -38,10 +42,6 @@ jobs:
       run: |
         export PATH=$HOME/.local/bin:$PATH
         stack --no-terminal --install-ghc setup
-
-    - name: Debug ls
-      run: |
-        ls
 
     - name: Install dependencies
       run: |
