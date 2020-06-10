@@ -42,6 +42,7 @@ jobs:
     - name: Install dependencies
       run: |
         export PATH=$HOME/.local/bin:$PATH
+        ls
         stack --no-terminal --install-ghc build --only-dependencies --fast
 
     - name: Build Bot
