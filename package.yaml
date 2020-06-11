@@ -29,6 +29,7 @@ dependencies:
 - text
 - lens
 - data-default
+- colour
 
 default-extensions:
 - OverloadedStrings
