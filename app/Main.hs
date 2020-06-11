@@ -15,6 +15,7 @@ import           TextShow
 import Bot.Secret
 import Bot.Import
 import Bot.Commands
+import Bot.Events
 
 main :: IO ()
 main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . useConstantPrefix "!"
