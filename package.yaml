@@ -22,6 +22,11 @@ description:         Please see the README on GitHub at <https://github.com/osca
 dependencies:
 - base >= 4.7 && < 5
 - calamity
+- polysemy
+- polysemy-plugin
+- di-polysemy
+- text-show
+- text
 
 library:
   source-dirs: src
@@ -31,6 +36,8 @@ executables:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
+    - -O2
+    - -fplugin=Polysemy.Plugin
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
