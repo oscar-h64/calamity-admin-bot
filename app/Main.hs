@@ -1,25 +1,14 @@
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeApplications #-}
-
 
 module Main where
 
-import           Calamity
-import           Calamity.Cache.InMemory
 import           Calamity.Commands
-import qualified Calamity.Commands.Context                  as CommandContext
-import           Calamity.Metrics.Noop
+import           Calamity.Cache.InMemory                    ( runCacheInMemory )
+import           Calamity.Metrics.Noop                      ( runMetricsNoop )
 
-import           Control.Monad
-
-import           Data.Text                                  ( Text )
 import qualified Data.Text.Lazy                             as L
 
-import qualified DiPolysemy                                 as DiP
-
 import qualified Polysemy                                   as P
-
-import           Prelude                                    hiding ( error )
 
 import           TextShow
 
@@ -39,7 +28,7 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
                 command @'[] "ping" ping
               
             -- Event Handlers:
-            react @('CustomEvt "command-error" (CommandContext.Context, CommandError)) $ \(ctx, e) -> do
+            react @('CustomEvt "command-error" (CommandContext, CommandError)) $ \(ctx, e) -> do
               info $ "Command failed with reason: " <> showt e
               case e of
                 ParseError n r -> void . tellt ctx $ "Failed to parse parameter: `" <> L.fromStrict n <> "`, with reason: ```\n" <> r <> "```"
