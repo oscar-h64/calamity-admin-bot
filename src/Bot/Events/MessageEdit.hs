@@ -1,8 +1,6 @@
 module Bot.Events.MessageEdit where
 
 import Calamity.Types.Model.Channel.Message
-import Calamity.Types.Model.Channel.Embed
-import Calamity.Types.Tellable
 
 import Data.Default
 
