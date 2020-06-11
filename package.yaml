@@ -28,6 +28,7 @@ dependencies:
 - text-show
 - text
 - lens
+- data-default
 
 default-extensions:
 - OverloadedStrings
