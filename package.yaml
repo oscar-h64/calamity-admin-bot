@@ -28,6 +28,9 @@ dependencies:
 - text-show
 - text
 
+default-extensions:
+- OverloadedStrings
+
 library:
   source-dirs: src
 
