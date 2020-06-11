@@ -16,15 +16,14 @@ onMessageEdit m1 m2 = do
         channel  = m2 ^. #channelID
         origtime = fromStrict $ showt $ m2 ^. #timestamp
         edittime = fromStrict $ fromMaybe "" $ showt <$> m2 ^. #editedTimestamp
-        msg :: Embed
-        msg = def & #title ?~ "Message Edited" 
-                  & #fields .~ [
-                      EmbedField "Author" (mention author) True,
-                      EmbedField "Sent" origtime True,
-                      EmbedField "Old Text" origtext True,
+        embed = def & #title ?~ "Message Edited" 
+                    & #fields .~ [
+                        EmbedField "Author" (mention author) True,
+                        EmbedField "Sent" origtime True,
+                        EmbedField "Old Text" origtext True,
 
-                      EmbedField "Channel" (mention channel) True,
-                      EmbedField "Edited" edittime True,                      
-                      EmbedField "New Text" newtext True
-                  ]
-    void $ tell logChannel msg
+                        EmbedField "Channel" (mention channel) True,
+                        EmbedField "Edited" edittime True,                      
+                        EmbedField "New Text" newtext True
+                    ]
+    void $ tell @Embed logChannel embed

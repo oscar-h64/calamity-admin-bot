@@ -35,6 +35,7 @@ default-extensions:
 - OverloadedLabels
 - NoImplicitPrelude
 - DataKinds
+- TypeApplications
 
 library:
   source-dirs: src
