@@ -1,7 +1,5 @@
 module Bot.Events.MessageEdit where
 
-import Calamity.Types.Model.Channel.Message
-
 import Data.Default
 import Data.Colour.Names
 
