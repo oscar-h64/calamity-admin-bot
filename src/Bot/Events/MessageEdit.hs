@@ -6,9 +6,10 @@ import Bot.Import
 
 onMessageEdit :: BotC r => Message -> Message -> Sem r ()
 onMessageEdit m1 m2 = do
-    let orig = m1 ^. #content
-        new  = m2 ^. #content
-        auth = m2 ^. #author
-        chan = m2 ^. #channelID
-        time = fromStrict $ fromMaybe "" $ showt <$> m2 ^. #editedTimestamp
-    void $ tellt m2 $ mention auth <> " updated their message in " <> mention chan <> " from " <> orig <> " to " <> new <> " at " <> time
+    let origtext = m1 ^. #content
+        newtext  = m2 ^. #content
+        author = m2 ^. #author
+        channel = m2 ^. #channelID
+        origtime = fromStrict $ showt $ m2 ^. #timestamp
+        edittime = fromStrict $ fromMaybe "" $ showt <$> m2 ^. #editedTimestamp
+    void $ tellt m2 $ mention author <> " updated their message in " <> mention channel <> " from " <> origtext <> " to " <> newtext <> " at " <> edittime
