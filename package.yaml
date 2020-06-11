@@ -30,9 +30,14 @@ dependencies:
 
 default-extensions:
 - OverloadedStrings
+- NoImplicitPrelude
+- DataKinds
 
 library:
   source-dirs: src
+  ghc-options:
+    - -O2
+    - -fplugin=Polysemy.Plugin
 
 executables:
   discord-test-exe:

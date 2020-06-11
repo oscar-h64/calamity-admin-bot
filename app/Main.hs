@@ -24,13 +24,8 @@ import           Prelude                                    hiding ( error )
 import           TextShow
 
 import Bot.Secret
-
-info, debug :: BotC r => Text -> P.Sem r ()
-info = DiP.info
-debug = DiP.info
-
-tellt :: (BotC r, Tellable t) => t -> L.Text -> P.Sem r (Either RestError Message)
-tellt t m = tell t $ L.toStrict m
+import Bot.Import
+import Bot.Commands
 
 main :: IO ()
 main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . useConstantPrefix "!"
@@ -41,7 +36,7 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
                 helpCommand
 
                 -- Ping Command
-                command @'[] "ping" $ void . flip tellt "pong"
+                command @'[] "ping" ping
               
             -- Event Handlers:
             react @('CustomEvt "command-error" (CommandContext.Context, CommandError)) $ \(ctx, e) -> do
