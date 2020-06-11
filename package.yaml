@@ -27,11 +27,16 @@ dependencies:
 - di-polysemy
 - text-show
 - text
+- lens
+- data-default
+- colour
 
 default-extensions:
 - OverloadedStrings
+- OverloadedLabels
 - NoImplicitPrelude
 - DataKinds
+- TypeApplications
 
 library:
   source-dirs: src

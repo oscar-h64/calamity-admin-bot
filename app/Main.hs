@@ -15,6 +15,7 @@ import           TextShow
 import Bot.Secret
 import Bot.Import
 import Bot.Commands
+import Bot.Events
 
 main :: IO ()
 main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . useConstantPrefix "!"
@@ -28,6 +29,10 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
                 command @'[] "ping" ping
               
             -- Event Handlers:
+            -- Message Edit:
+            react @'MessageUpdateEvt $ uncurry onMessageEdit
+            
+            -- Command Error Event
             react @('CustomEvt "command-error" (CommandContext, CommandError)) $ \(ctx, e) -> do
               info $ "Command failed with reason: " <> showt e
               case e of
