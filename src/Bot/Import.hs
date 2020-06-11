@@ -1,6 +1,5 @@
 module Bot.Import (
     module Bot.Import,
-    module L,
 ) where
 
 import           Calamity                                   as Bot.Import
