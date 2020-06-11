@@ -16,6 +16,10 @@ import           Control.Lens                               as Bot.Import
 import           TextShow                                   as Bot.Import ( showt )
 import           Prelude                                    as Bot.Import hiding ( error )
 
+
+logChannel :: Snowflake Channel
+logChannel = Snowflake 720278676104806522
+
 info, debug :: BotC r => Text -> Sem r ()
 info = DiP.info
 debug = DiP.info

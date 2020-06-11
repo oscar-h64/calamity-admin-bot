@@ -12,4 +12,5 @@ onMessageEdit m1 m2 = do
         channel = m2 ^. #channelID
         origtime = fromStrict $ showt $ m2 ^. #timestamp
         edittime = fromStrict $ fromMaybe "" $ showt <$> m2 ^. #editedTimestamp
-    void $ tellt m2 $ mention author <> " updated their message in " <> mention channel <> " from " <> origtext <> " to " <> newtext <> " at " <> edittime
+    
+    void $ tellt logChannel $ mention author <> " updated their message in " <> mention channel <> " from " <> origtext <> " to " <> newtext <> " at " <> edittime
