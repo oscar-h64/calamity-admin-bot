@@ -3,6 +3,7 @@ module Bot.Events.MessageEdit where
 import Calamity.Types.Model.Channel.Message
 
 import Data.Default
+import Data.Colour.Names
 
 import Bot.Import
 
@@ -15,6 +16,7 @@ onMessageEdit m1 m2 = do
         origtime = fromStrict $ showt $ m2 ^. #timestamp
         edittime = fromStrict $ fromMaybe "" $ showt <$> m2 ^. #editedTimestamp
         embed = def & #title ?~ "Message Edited" 
+                    & #color ?~ mediumaquamarine
                     & #fields .~ [
                         EmbedField "Author" (mention author) True,
                         EmbedField "Sent" origtime True,
