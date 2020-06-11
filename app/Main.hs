@@ -29,6 +29,9 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
                 command @'[] "ping" ping
               
             -- Event Handlers:
+            -- Message Edit:
+            react @'MessageUpdateEvt onMessageEdit
+            -- Command Error Event
             react @('CustomEvt "command-error" (CommandContext, CommandError)) $ \(ctx, e) -> do
               info $ "Command failed with reason: " <> showt e
               case e of
