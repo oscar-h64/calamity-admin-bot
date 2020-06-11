@@ -33,7 +33,7 @@ tellt t m = tell t $ L.toStrict m
 
 main :: IO ()
 main = do
-  let token = ""
+  let token = "NzIwMjgwMTU4ODYyMzExNDI0.XuH8SA.Mp_ifbWLk82-BA4Q-8QgxWVozbI"
   void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . useConstantPrefix "!"
     $ runBotIO (BotToken token) $ do
     addCommands $ do
