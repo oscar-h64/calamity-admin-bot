@@ -10,6 +10,7 @@ import qualified DiPolysemy                                 as DiP
 import           Data.Text                                  as Bot.Import ( Text )
 import qualified Data.Text.Lazy                             as L
 import           Control.Monad                              as Bot.Import
+import           Control.Lens                               as Bot.Import
 import           Prelude                                    as Bot.Import hiding ( error )
 
 info, debug :: BotC r => Text -> Sem r ()

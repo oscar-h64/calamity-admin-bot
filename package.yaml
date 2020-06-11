@@ -27,9 +27,11 @@ dependencies:
 - di-polysemy
 - text-show
 - text
+- lens
 
 default-extensions:
 - OverloadedStrings
+- OverloadedLabels
 - NoImplicitPrelude
 - DataKinds
 
