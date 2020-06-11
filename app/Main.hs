@@ -23,6 +23,8 @@ import           Prelude                                    hiding ( error )
 
 import           TextShow
 
+import Bot.Secret
+
 info, debug :: BotC r => Text -> P.Sem r ()
 info = DiP.info
 debug = DiP.info
@@ -31,10 +33,8 @@ tellt :: (BotC r, Tellable t) => t -> L.Text -> P.Sem r (Either RestError Messag
 tellt t m = tell t $ L.toStrict m
 
 main :: IO ()
-main = do
-    let token = "NzIwMjgwMTU4ODYyMzExNDI0.XuH8SA.Mp_ifbWLk82-BA4Q-8QgxWVozbI"
-    void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . useConstantPrefix "!"
-        $ runBotIO (BotToken token) $ do
+main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . useConstantPrefix "!"
+        $ runBotIO secret $ do
             -- Commands:
             addCommands $ do
                 -- Help command
