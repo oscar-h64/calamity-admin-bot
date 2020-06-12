@@ -8,13 +8,30 @@
 --------------------------------------------------------------------------------
 module Bot.Commands.Ban where
 
-import Bot.Import
 import Data.Text (pack)
+import Data.Colour.Names
+import Data.Default
+import Data.Time.Clock
 
-ban :: BotC r => CommandContext -> User -> Maybe [Text] -> Sem r ()
-ban ctx u reason = 
+import Polysemy as P (embed)
+
+import Bot.Import
+
+ban :: BotC r => CommandContext -> User -> [Text] -> Sem r ()
+ban ctx u r = do
+    let reason = intercalate " " <$> if r == [] then Nothing else Just r
+    time <- P.embed getCurrentTime
     case ctx ^. #guild of
         Nothing -> void $ tellt ctx "An error occurred while banning: Command must be executed in a guild"
         Just g -> do
-            result <- invoke $ CreateGuildBan g u $ CreateGuildBanData Nothing $ intercalate " " <$> reason 
+            result <- invoke $ CreateGuildBan g u $ CreateGuildBanData Nothing reason 
             void $ tellt ctx $ "Banned " <> mention u
+            let embed = def & #title ?~ "User Banned" 
+                    & #color ?~ springgreen
+                    & #fields .~ [
+                        EmbedField "User" (mention u) True,
+                        EmbedField "Banner" (mention $ ctx ^. #user) True,
+                        EmbedField "Time" (showtl time) True,
+                        EmbedField "Reason" (fromStrict $ fromMaybe "N/A" reason) False
+                    ]
+            void $ tell @Embed logChannel embed

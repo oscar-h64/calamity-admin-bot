@@ -29,6 +29,7 @@ dependencies:
 - lens
 - data-default
 - colour
+- time
 
 default-extensions:
 - OverloadedStrings
