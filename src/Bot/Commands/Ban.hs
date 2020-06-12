@@ -9,8 +9,12 @@
 module Bot.Commands.Ban where
 
 import Bot.Import
+import Data.Text (pack)
 
-ban :: BotC r => CommandContext -> User -> Maybe Text -> Sem r ()
-ban ctx u reason = case ctx ^. #guild of
+ban :: BotC r => CommandContext -> User -> Maybe [Text] -> Sem r ()
+ban ctx u reason = 
+    case ctx ^. #guild of
         Nothing -> void $ tellt ctx "An error occurred while banning: Command must be executed in a guild"
-        Just g -> void $ invoke $ CreateGuildBan g u $ CreateGuildBanData Nothing reason 
+        Just g -> do
+            result <- invoke $ CreateGuildBan g u $ CreateGuildBanData Nothing $ intercalate " " <$> reason 
+            void $ tellt ctx $ "Banned " <> mention u

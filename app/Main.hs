@@ -43,7 +43,7 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
 
                 -- User Ban
                 help (const "Bans the given user for the given reason") $
-                    command @'[User, Maybe Text] "ban" ban
+                    command @'[User, Maybe [Text]] "ban" ban
 
             -- Event Handlers:
             -- Message Edit:
