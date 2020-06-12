@@ -35,6 +35,9 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
 
                 -- Ping Command
                 command @'[] "ping" ping
+
+                -- Invite command
+                command @'[] "invite" invite
               
             -- Event Handlers:
             -- Message Edit:

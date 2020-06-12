@@ -6,10 +6,9 @@
 --                                                                            --
 -- Copyright 2020 Oscar Harris (oscar@oscar-h.com)                            --
 --------------------------------------------------------------------------------
-module Bot.Commands (
-    ping,
-    invite
-) where
+module Bot.Commands.Invite where
 
-import Bot.Commands.Ping
-import Bot.Commands.Invite
+import Bot.Import
+
+invite :: (BotC r) => CommandContext -> Sem r ()
+invite = void . flip tellt "Invite Link: https://discord.gg/2CdxRZd"
