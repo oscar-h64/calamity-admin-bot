@@ -12,11 +12,11 @@ onMessageDelete m = do
         channel  = m ^. #channelID
         origtime = fromStrict $ showt $ m ^. #timestamp
         embed = def & #title ?~ "Message Deleted" 
-                    & #color ?~ red
+                    & #color ?~ tomato
                     & #fields .~ [
+                        EmbedField "Channel" (mention channel) True,
                         EmbedField "Author" (mention author) True,
                         EmbedField "Sent" origtime True,
-                        EmbedField "Old Text" text True,
-                        EmbedField "Channel" (mention channel) True
+                        EmbedField "Content" text False
                     ]
     void $ tell @Embed logChannel embed
