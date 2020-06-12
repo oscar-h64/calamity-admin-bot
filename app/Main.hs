@@ -38,7 +38,10 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
 
                 -- Invite command
                 command @'[] "invite" invite
-              
+
+                -- User Ban
+                command @'[User] "ban" ban
+
             -- Event Handlers:
             -- Message Edit:
             react @'MessageUpdateEvt $ uncurry onMessageEdit

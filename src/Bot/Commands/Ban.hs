@@ -6,12 +6,9 @@
 --                                                                            --
 -- Copyright 2020 Oscar Harris (oscar@oscar-h.com)                            --
 --------------------------------------------------------------------------------
-module Bot.Commands (
-    ping,
-    invite,
-    ban
-) where
+module Bot.Commands.Ban where
 
-import Bot.Commands.Ping
-import Bot.Commands.Invite
-import Bot.Commands.Ban
+import Bot.Import
+
+ban :: BotC r => CommandContext -> User -> Sem r ()
+ban = undefined
