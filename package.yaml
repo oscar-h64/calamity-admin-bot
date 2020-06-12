@@ -4,7 +4,7 @@ github:              "oscar-h64/discord-test"
 license:             BSD3
 author:              "Oscar Harris"
 maintainer:          "oscar@oscar-h.com"
-copyright:           "2020 OscarHarris"
+copyright:           "2020 Oscar Harris"
 
 extra-source-files:
 - README.md
