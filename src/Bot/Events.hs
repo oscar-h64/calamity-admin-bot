@@ -1,5 +1,7 @@
 module Bot.Events (
-    onMessageEdit
+    onMessageEdit,
+    onMessageDelete
 ) where
 
 import Bot.Events.MessageEdit
+import Bot.Events.MessageDelete
