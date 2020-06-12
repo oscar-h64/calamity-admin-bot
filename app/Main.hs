@@ -40,7 +40,7 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
                 command @'[] "invite" invite
 
                 -- User Ban
-                command @'[User] "ban" ban
+                command @'[User, Maybe Text] "ban" ban
 
             -- Event Handlers:
             -- Message Edit:
