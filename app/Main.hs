@@ -34,13 +34,16 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
                 helpCommand
 
                 -- Ping Command
-                command @'[] "ping" ping
+                help (const "Replies with 'pong'") $
+                    command @'[] "ping" ping
 
                 -- Invite command
-                command @'[] "invite" invite
+                help (const "Returns the invite link to the server") $
+                    command @'[] "invite" invite
 
                 -- User Ban
-                command @'[User, Maybe Text] "ban" ban
+                help (const "Bans the given user for the given reason") $
+                    command @'[User, Maybe Text] "ban" ban
 
             -- Event Handlers:
             -- Message Edit:
@@ -51,6 +54,6 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
 
             -- Command Error Event
             react @('CustomEvt "command-error" (CommandContext, CommandError)) $ \(ctx, e) -> do
-              info $ "Command failed with reason: " <> showt e
-              case e of
-                ParseError n r -> void . tellt ctx $ "Failed to parse parameter: `" <> L.fromStrict n <> "`, with reason: ```\n" <> r <> "```"
+                info $ "Command failed with reason: " <> showt e
+                case e of
+                    ParseError n r -> void . tellt ctx $ "Failed to parse parameter: `" <> L.fromStrict n <> "`, with reason: ```\n" <> r <> "```"
