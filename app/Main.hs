@@ -31,7 +31,10 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
             -- Event Handlers:
             -- Message Edit:
             react @'MessageUpdateEvt $ uncurry onMessageEdit
-            
+
+            -- Message Delete:
+            react @'MessageDeleteEvt onMessageDelete
+
             -- Command Error Event
             react @('CustomEvt "command-error" (CommandContext, CommandError)) $ \(ctx, e) -> do
               info $ "Command failed with reason: " <> showt e
