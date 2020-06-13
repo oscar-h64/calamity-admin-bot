@@ -8,8 +8,13 @@
 --------------------------------------------------------------------------------
 module Bot.Commands (
     ping,
-    invite
+    invite,
+    ban,
+    unban,
+    adminCheck
 ) where
 
 import Bot.Commands.Ping
 import Bot.Commands.Invite
+import Bot.Commands.Ban
+import Bot.Commands.Admin (adminCheck)

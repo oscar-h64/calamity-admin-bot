@@ -15,12 +15,12 @@ import qualified Calamity.Commands.Context                  as CC ( Context(..) 
 import           Polysemy                                   as Bot.Import ( Sem(..) )
 import qualified DiPolysemy                                 as DiP
 import           Data.Maybe                                 as Bot.Import (fromMaybe, maybe)
-import           Data.Text                                  as Bot.Import ( Text )
+import           Data.Text                                  as Bot.Import ( Text, intercalate )
 import qualified Data.Text.Lazy                             as L ( Text )
 import           Data.Text.Lazy                             as Bot.Import (fromStrict, toStrict)
 import           Control.Monad                              as Bot.Import
 import           Control.Lens                               as Bot.Import
-import           TextShow                                   as Bot.Import ( showt )
+import           TextShow                                   as Bot.Import ( showt, showtl )
 import           Prelude                                    as Bot.Import hiding ( error )
 
 

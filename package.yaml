@@ -29,6 +29,8 @@ dependencies:
 - lens
 - data-default
 - colour
+- time
+- vector
 
 default-extensions:
 - OverloadedStrings
@@ -36,6 +38,9 @@ default-extensions:
 - NoImplicitPrelude
 - DataKinds
 - TypeApplications
+- AllowAmbiguousTypes
+- ScopedTypeVariables
+- ConstrainedClassMethods
 
 library:
   source-dirs: src
