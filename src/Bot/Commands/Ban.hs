@@ -8,30 +8,20 @@
 --------------------------------------------------------------------------------
 module Bot.Commands.Ban where
 
-import Data.Text (pack)
-import Data.Colour.Names
-import Data.Default
-import Data.Time.Clock
+import Data.Colour.Names ( springgreen )
 
-import Polysemy as P (embed)
-
+import Bot.Commands.Admin
 import Bot.Import
 
+data Ban
+
+instance AdminLoggable Ban where
+    colour = springgreen
+    word = "Banned"
+
 ban :: BotC r => CommandContext -> User -> [Text] -> Sem r ()
-ban ctx u r = do
+ban ctx u r = 
     let reason = intercalate " " <$> if r == [] then Nothing else Just r
-    time <- P.embed getCurrentTime
-    case ctx ^. #guild of
-        Nothing -> void $ tellt ctx "An error occurred while banning: Command must be executed in a guild"
-        Just g -> do
-            result <- invoke $ CreateGuildBan g u $ CreateGuildBanData Nothing reason 
-            void $ tellt ctx $ "Banned " <> mention u
-            let embed = def & #title ?~ "User Banned" 
-                    & #color ?~ springgreen
-                    & #fields .~ [
-                        EmbedField "User" (mention u) True,
-                        EmbedField "Admin" (mention $ ctx ^. #user) True,
-                        EmbedField "Time" (showtl time) True,
-                        EmbedField "Reason" (fromStrict $ fromMaybe "N/A" reason) False
-                    ]
-            void $ tell @Embed logChannel embed
+        toInvoke = \(g :: Guild) -> CreateGuildBan g u $ CreateGuildBanData Nothing reason 
+    in
+        doAdminAction @Ban ctx u toInvoke [EmbedField "Reason" (fromStrict $ fromMaybe "N/A" reason) False]
