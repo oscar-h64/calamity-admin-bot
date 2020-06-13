@@ -10,6 +10,7 @@ module Bot.Commands (
     ping,
     invite,
     ban,
+    unban,
     adminCheck
 ) where
 

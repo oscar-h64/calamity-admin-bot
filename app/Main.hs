@@ -44,6 +44,10 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
                 -- User Ban
                 adminCheck $ help (const "Bans the given user for the given reason") $
                     command @'[User, [Text]] "ban" ban
+                
+                -- User Unban
+                adminCheck $ help (const "Unbans the given user for the given reason") $
+                    command @'[User, [Text]] "unban" unban
 
             -- Event Handlers:
             -- Message Edit:
