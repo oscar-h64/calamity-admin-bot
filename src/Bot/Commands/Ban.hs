@@ -30,7 +30,7 @@ ban ctx u r = do
                     & #color ?~ springgreen
                     & #fields .~ [
                         EmbedField "User" (mention u) True,
-                        EmbedField "Banner" (mention $ ctx ^. #user) True,
+                        EmbedField "Admin" (mention $ ctx ^. #user) True,
                         EmbedField "Time" (showtl time) True,
                         EmbedField "Reason" (fromStrict $ fromMaybe "N/A" reason) False
                     ]
