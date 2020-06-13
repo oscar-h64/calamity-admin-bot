@@ -42,7 +42,7 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
                     command @'[] "invite" invite
 
                 -- User Ban
-                help (const "Bans the given user for the given reason") $
+                adminCheck $ help (const "Bans the given user for the given reason") $
                     command @'[User, [Text]] "ban" ban
 
             -- Event Handlers:
@@ -56,4 +56,7 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
             react @('CustomEvt "command-error" (CommandContext, CommandError)) $ \(ctx, e) -> do
                 info $ "Command failed with reason: " <> showt e
                 case e of
-                    ParseError n r -> void . tellt ctx $ "Failed to parse parameter: `" <> L.fromStrict n <> "`, with reason: ```\n" <> r <> "```"
+                    ParseError n r -> void . tellt ctx $ 
+                        "Failed to parse parameter: `" <> L.fromStrict n <> "`, with reason: ```\n" <> r <> "```"
+                    CheckError n r -> void . tellt ctx $ 
+                        "The following check failed: " <> codeline (L.fromStrict n) <> ", with reason: " <> codeblock' Nothing r
