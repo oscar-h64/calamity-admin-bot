@@ -16,4 +16,4 @@ module Bot.Commands (
 import Bot.Commands.Ping
 import Bot.Commands.Invite
 import Bot.Commands.Ban
-import Bot.Commands.Admin
+import Bot.Commands.Admin (adminCheck)
