@@ -34,11 +34,21 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
                 helpCommand
 
                 -- Ping Command
-                command @'[] "ping" ping
+                help (const "Replies with 'pong'") $
+                    command @'[] "ping" ping
 
                 -- Invite command
-                command @'[] "invite" invite
-              
+                help (const "Returns the invite link to the server") $
+                    command @'[] "invite" invite
+
+                -- User Ban
+                adminCheck $ help (const "Bans the given user for the given reason") $
+                    command @'[User, [Text]] "ban" ban
+                
+                -- User Unban
+                adminCheck $ help (const "Unbans the given user for the given reason") $
+                    command @'[User, [Text]] "unban" unban
+
             -- Event Handlers:
             -- Message Edit:
             react @'MessageUpdateEvt $ uncurry onMessageEdit
@@ -48,6 +58,9 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
 
             -- Command Error Event
             react @('CustomEvt "command-error" (CommandContext, CommandError)) $ \(ctx, e) -> do
-              info $ "Command failed with reason: " <> showt e
-              case e of
-                ParseError n r -> void . tellt ctx $ "Failed to parse parameter: `" <> L.fromStrict n <> "`, with reason: ```\n" <> r <> "```"
+                info $ "Command failed with reason: " <> showt e
+                case e of
+                    ParseError n r -> void . tellt ctx $ 
+                        "Failed to parse parameter: `" <> L.fromStrict n <> "`, with reason: ```\n" <> r <> "```"
+                    CheckError n r -> void . tellt ctx $ 
+                        "The following check failed: " <> codeline (L.fromStrict n) <> ", with reason: " <> codeblock' Nothing r
