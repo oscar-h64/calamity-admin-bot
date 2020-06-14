@@ -41,6 +41,7 @@ default-extensions:
 - AllowAmbiguousTypes
 - ScopedTypeVariables
 - ConstrainedClassMethods
+- FlexibleContexts
 
 library:
   source-dirs: src
