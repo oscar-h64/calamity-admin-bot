@@ -9,6 +9,8 @@
 module Bot.Commands (
     ping,
     invite,
+    mute,
+    unmute,
     ban,
     unban,
     adminCheck
@@ -16,5 +18,6 @@ module Bot.Commands (
 
 import Bot.Commands.Ping
 import Bot.Commands.Invite
+import Bot.Commands.Mute
 import Bot.Commands.Ban
 import Bot.Commands.Admin (adminCheck)

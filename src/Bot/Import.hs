@@ -27,6 +27,9 @@ import           Prelude                                    as Bot.Import hiding
 logChannel :: Snowflake Channel
 logChannel = Snowflake ***REMOVED***
 
+muteRole :: Snowflake Role
+muteRole = Snowflake ***REMOVED***
+
 info, debug :: BotC r => Text -> Sem r ()
 info = DiP.info
 debug = DiP.info

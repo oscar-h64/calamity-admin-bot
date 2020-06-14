@@ -41,6 +41,14 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
                 help (const "Returns the invite link to the server") $
                     command @'[] "invite" invite
 
+                -- User Mute
+                adminCheck $ help (const "Mutes the given user for the given reason") $
+                    command @'[Snowflake User, [Text]] "mute" Bot.Commands.mute
+
+                -- User Unmute
+                adminCheck $ help (const "Unmutes the given user for the given reason") $
+                    command @'[Snowflake User, [Text]] "unmute" unmute
+
                 -- User Ban
                 adminCheck $ help (const "Bans the given user for the given reason") $
                     command @'[Snowflake User, [Text]] "ban" ban
