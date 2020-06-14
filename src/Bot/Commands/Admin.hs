@@ -41,10 +41,10 @@ class AdminLoggable a where
 
 type ToInvoke = Guild -> GuildRequest ()
 
-doAdminAction :: forall action r 
-               . (AdminLoggable action, BotC r) 
+doAdminAction :: forall action r u
+               . (AdminLoggable action, BotC r, Mentionable u, HasID User u) 
               => CommandContext 
-              -> User 
+              -> u 
               -> ToInvoke 
               -> [EmbedField] 
               -> Sem r ()
