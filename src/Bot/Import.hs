@@ -28,7 +28,7 @@ logChannel :: Snowflake Channel
 logChannel = Snowflake 720278676104806522
 
 muteRole :: Snowflake Role
-muteRole = Snowflake 721062073030934558
+muteRole = Snowflake 721806684607217796
 
 info, debug :: BotC r => Text -> Sem r ()
 info = DiP.info
