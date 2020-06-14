@@ -18,7 +18,7 @@ onMessageDelete m = do
     let text     = m ^. #content
         author   = m ^. #author
         channel  = m ^. #channelID
-        origtime = fromStrict $ showt $ m ^. #timestamp
+        origtime = showtl $ m ^. #timestamp
         embed = def & #title ?~ "Message Deleted" 
                     & #color ?~ tomato
                     & #fields .~ [
