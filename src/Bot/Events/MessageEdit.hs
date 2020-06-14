@@ -19,8 +19,8 @@ onMessageEdit m1 m2 = do
         newtext  = m2 ^. #content
         author   = m2 ^. #author
         channel  = m2 ^. #channelID
-        origtime = fromStrict $ showt $ m2 ^. #timestamp
-        edittime = fromStrict $ fromMaybe "ERROR" $ showt <$> m2 ^. #editedTimestamp
+        origtime = showtl $ m2 ^. #timestamp
+        edittime = fromMaybe "ERROR" $ showtl <$> m2 ^. #editedTimestamp
         embed = def & #title ?~ "Message Edited" 
                     & #color ?~ mediumaquamarine
                     & #fields .~ [
