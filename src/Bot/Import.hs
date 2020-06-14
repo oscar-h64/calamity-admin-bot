@@ -19,7 +19,7 @@ import           Data.Text                                  as Bot.Import ( Text
 import qualified Data.Text.Lazy                             as L ( Text )
 import           Data.Text.Lazy                             as Bot.Import (fromStrict, toStrict)
 import           Control.Monad                              as Bot.Import
-import           Control.Lens                               as Bot.Import
+import           Lens.Micro                                 as Bot.Import
 import           TextShow                                   as Bot.Import ( showt, showtl )
 import           Prelude                                    as Bot.Import hiding ( error )
 
