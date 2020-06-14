@@ -24,7 +24,7 @@ instance AdminLoggable Unban where
     colour = mediumpurple
     word = "Unbanned"
 
-ban :: BotC r => CommandContext -> User -> [Text] -> Sem r ()
+ban :: BotC r => CommandContext -> Snowflake User -> [Text] -> Sem r ()
 ban ctx u r = 
     let reason = intercalate " " <$> if r == [] then Nothing else Just r
         toInvoke = \(g :: Guild) -> CreateGuildBan g u $ CreateGuildBanData Nothing reason 
