@@ -10,6 +10,7 @@ module Bot.Commands (
     ping,
     invite,
     mute,
+    unmute,
     ban,
     unban,
     adminCheck
