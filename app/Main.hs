@@ -56,6 +56,10 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
                 -- User Unban
                 adminCheck $ help (const "Unbans the given user for the given reason") $
                     command @'[Snowflake User, [Text]] "unban" unban
+                
+                -- User Ban
+                adminCheck $ help (const "Kicks the given user for the given reason") $
+                    command @'[Snowflake User, [Text]] "kick" kick
 
             -- Event Handlers:
             -- Message Edit:
