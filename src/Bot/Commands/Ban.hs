@@ -25,19 +25,12 @@ instance AdminLoggable Unban where
     word = "Unbanned"
 
 ban :: BotC r => CommandContext -> Snowflake User -> [Text] -> Sem r ()
-ban ctx u r = 
-    let reason = intercalate " " <$> if r == [] then Nothing else Just r
-        toInvoke = \(g :: Guild) -> CreateGuildBan g u $ CreateGuildBanData Nothing reason 
-    in
-        doAdminAction @Ban ctx u toInvoke [EmbedField "Reason" (fromStrict $ fromMaybe "N/A" reason) False]
+ban ctx user reason = 
+    doAdminAction @Ban ctx user reason [] $ 
+        \g r -> CreateGuildBan g user $ CreateGuildBanData Nothing r
 
 unban :: BotC r => CommandContext -> Snowflake User -> [Text] -> Sem r ()
-unban ctx u r = 
-    let reason = intercalate " " <$> if r == [] then Nothing else Just r
-        toInvoke = \(g :: Guild) -> RemoveGuildBan g u
-    in
-        doAdminAction @Unban 
-            ctx 
-            u
-            toInvoke 
-            [EmbedField "Reason" (fromStrict $ fromMaybe "N/A" reason) False]
+unban ctx user reason = 
+    doAdminAction @Unban ctx user reason [] $ 
+        \g _ -> RemoveGuildBan g user
+        
