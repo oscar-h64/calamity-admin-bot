@@ -39,25 +39,29 @@ class AdminLoggable a where
     colour :: AdminLoggable a => Colour Double
     word :: AdminLoggable a => Text
 
-type ToInvoke = Guild -> GuildRequest ()
+type ToInvoke = Guild -> Maybe Text -> GuildRequest ()
 
 doAdminAction :: forall action r u
                . (AdminLoggable action, BotC r, Mentionable u, HasID User u) 
               => CommandContext 
-              -> u 
+              -> u
+              -> [Text]
+              -> [EmbedField]
               -> ToInvoke 
-              -> [EmbedField] 
               -> Sem r ()
-doAdminAction ctx u toInvoke fields = case ctx ^. #guild of
+doAdminAction ctx u reason fields toInvoke = case ctx ^. #guild of
     Nothing -> void $ tellt ctx "Administrator actions must be performed in a guild"
     Just g -> do
-        invoke $ toInvoke g
+        let mr = intercalate " " <$> if reason == [] then Nothing else Just reason
+            r  = fromStrict $ fromMaybe "N/A" mr
+        invoke $ toInvoke g mr
         tellt ctx $ fromStrict (word @action) <> " " <> mention u
         time <- P.embed getCurrentTime
         let embed = def & #title ?~ fromStrict ("User " <> word @action) 
                         & #color ?~ colour @action
-                        & #fields .~ EmbedField "User" (mention u) True
+                        & #fields .~  EmbedField "User" (mention u) True
                                     : EmbedField "Admin" (mention $ ctx ^. #user) True
                                     : EmbedField "Time" (showtl time) True
+                                    : EmbedField "Reason" r False
                                     : fields
         void $ tell @Embed logChannel embed
