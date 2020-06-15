@@ -14,7 +14,7 @@ import           Calamity                                   as Bot.Import
 import qualified Calamity.Commands.Context                  as CC ( Context(..) )
 import           Polysemy                                   as Bot.Import ( Sem(..) )
 import qualified DiPolysemy                                 as DiP
-import           Data.Maybe                                 as Bot.Import (fromMaybe, maybe)
+import           Data.Maybe                                 as Bot.Import (fromMaybe, maybe, isJust)
 import           Data.Text                                  as Bot.Import ( Text, intercalate )
 import qualified Data.Text.Lazy                             as L ( Text )
 import           Data.Text.Lazy                             as Bot.Import (fromStrict, toStrict)
