@@ -25,25 +25,13 @@ instance AdminLoggable Unmute where
     word = "Unmuted"
 
 mute :: BotC r => CommandContext -> Snowflake User -> [Text] -> Sem r ()
-mute ctx u r = 
-    let reason = intercalate " " <$> if r == [] then Nothing else Just r
-        toInvoke = \(g :: Guild) -> AddGuildMemberRole g u muteRole
-    in
-        doAdminAction @Mute 
-            ctx 
-            u
-            toInvoke 
-            [EmbedField "Reason" (fromStrict $ fromMaybe "N/A" reason) False]
+mute ctx user reason = 
+    doAdminAction @Mute ctx user reason [] $
+        \g _ -> AddGuildMemberRole g user muteRole
 
 unmute :: BotC r => CommandContext -> Snowflake User -> [Text] -> Sem r ()
-unmute ctx u r = 
-    let reason = intercalate " " <$> if r == [] then Nothing else Just r
-        toInvoke = \(g :: Guild) -> RemoveGuildMemberRole g u muteRole
-    in
-        doAdminAction @Unmute 
-            ctx 
-            u
-            toInvoke 
-            [EmbedField "Reason" (fromStrict $ fromMaybe "N/A" reason) False]
+unmute ctx user reason = 
+    doAdminAction @Unmute ctx user reason [] $
+        \g _ -> RemoveGuildMemberRole g user muteRole
 
 -- TODO: Tempmute - call unmute with reason ["Temporary mute ended"]
