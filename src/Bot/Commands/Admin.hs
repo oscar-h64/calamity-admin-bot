@@ -13,6 +13,7 @@ module Bot.Commands.Admin (
 ) where
 
 import           Calamity.Commands.Dsl ( DSLState, requiresPure )
+import qualified Calamity.HTTP.Reason as CR (reason) 
 
 import           Data.Colour (Colour)
 import           Data.Default
@@ -49,19 +50,29 @@ doAdminAction :: forall action r u
               -> [EmbedField]
               -> ToInvoke 
               -> Sem r ()
-doAdminAction ctx u reason fields toInvoke = case ctx ^. #guild of
+doAdminAction ctx u reasonL fields toInvoke = case ctx ^. #guild of
     Nothing -> void $ tellt ctx "Administrator actions must be performed in a guild"
     Just g -> do
-        let mr = intercalate " " <$> if reason == [] then Nothing else Just reason
-            r  = fromStrict $ fromMaybe "N/A" mr
-        invoke $ toInvoke g mr
+        let 
+            admin = ctx ^. #user
+            -- Nothing if no reason provided, otherwise Just reason
+            mr  = intercalate " " <$> if reasonL == [] then Nothing else Just reasonL
+            -- Blank if no reason, otherwise reason
+            rna = fromMaybe "N/A" mr
+            -- Blank if no reason, otherwise " for " <> reason - useful for including reason in messages
+            rpr = fromMaybe "" $ (" for " <>) <$> mr
+            -- Reason to send with request
+            rr = "Requested by " <> toStrict (displayUser admin) <> rpr
+
+        invoke $ CR.reason rr $ toInvoke g mr
+
         tellt ctx $ fromStrict (word @action) <> " " <> mention u
         time <- P.embed getCurrentTime
         let embed = def & #title ?~ fromStrict ("User " <> word @action) 
                         & #color ?~ colour @action
                         & #fields .~  EmbedField "User" (mention u) True
-                                    : EmbedField "Admin" (mention $ ctx ^. #user) True
+                                    : EmbedField "Admin" (mention admin) True
                                     : EmbedField "Time" (showtl time) True
-                                    : EmbedField "Reason" r False
+                                    : EmbedField "Reason" (fromStrict rna) False
                                     : fields
         void $ tell @Embed logChannel embed
