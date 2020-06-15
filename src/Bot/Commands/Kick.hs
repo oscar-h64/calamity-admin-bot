@@ -19,5 +19,13 @@ instance AdminLoggable Kick where
     colour = darkmagenta
     word = "Kicked"
 
-kick :: (BotC r) => CommandContext -> Snowflake User -> [Text] -> Sem r ()
-kick = undefined
+kick :: BotC r => CommandContext -> Snowflake User -> [Text] -> Sem r ()
+kick ctx u r = 
+    let reason = intercalate " " <$> if r == [] then Nothing else Just r
+        toInvoke = \(g :: Guild) -> RemoveGuildMember g u
+    in
+        doAdminAction @Kick 
+            ctx 
+            u
+            toInvoke 
+            [EmbedField "Reason" (fromStrict $ fromMaybe "N/A" reason) False]
