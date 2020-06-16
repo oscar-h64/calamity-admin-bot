@@ -19,10 +19,12 @@ data Unban
 instance AdminLoggable Ban where
     colour = springgreen
     word = "Banned"
+    phrase = "banned from"
 
 instance AdminLoggable Unban where
     colour = mediumpurple
     word = "Unbanned"
+    phrase = "unbanned from"
 
 ban :: BotC r => CommandContext -> Snowflake User -> [Text] -> Sem r ()
 ban ctx user reason = 

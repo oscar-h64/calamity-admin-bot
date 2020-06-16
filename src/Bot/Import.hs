@@ -30,6 +30,9 @@ logChannel = Snowflake ***REMOVED***
 muteRole :: Snowflake Role
 muteRole = Snowflake ***REMOVED***
 
+serverName :: Text
+serverName = "***REMOVED***"
+
 info, debug :: BotC r => Text -> Sem r ()
 info = DiP.info
 debug = DiP.info
