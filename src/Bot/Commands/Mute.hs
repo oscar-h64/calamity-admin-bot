@@ -19,10 +19,12 @@ data Unmute
 instance AdminLoggable Mute where
     colour = khaki
     word = "Muted"
+    phrase = "muted in"
 
 instance AdminLoggable Unmute where
     colour = palevioletred
     word = "Unmuted"
+    phrase = "unmuted in"
 
 mute :: BotC r => CommandContext -> Snowflake User -> [Text] -> Sem r ()
 mute ctx user reason = 

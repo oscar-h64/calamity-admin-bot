@@ -39,6 +39,7 @@ adminCheck = requiresPure [("adminCheck", check)]
 class AdminLoggable a where
     colour :: AdminLoggable a => Colour Double
     word :: AdminLoggable a => Text
+    phrase :: AdminLoggable a => Text
 
 type ToInvoke = Guild -> Maybe Text -> GuildRequest ()
 
@@ -65,6 +66,12 @@ doAdminAction ctx u reasonL fields toInvoke = case ctx ^. #guild of
             rr = "Requested by " <> toStrict (displayUser admin) <> rpr
 
         invoke $ CR.reason rr $ toInvoke g mr
+        dmChannel <- invoke $ CreateDM u
+        
+        case dmChannel of 
+            Left _   -> return ()
+            Right dm -> void $ tellt dm $ fromStrict $ 
+                            "You have been " <> phrase @action <> " " <> serverName <> rpr  
 
         tellt ctx $ fromStrict (word @action) <> " " <> mention u
         time <- P.embed getCurrentTime

@@ -30,6 +30,9 @@ logChannel = Snowflake 720278676104806522
 muteRole :: Snowflake Role
 muteRole = Snowflake 721806684607217796
 
+serverName :: Text
+serverName = "Oscar's Test Server"
+
 info, debug :: BotC r => Text -> Sem r ()
 info = DiP.info
 debug = DiP.info

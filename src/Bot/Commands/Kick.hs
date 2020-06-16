@@ -18,6 +18,7 @@ data Kick
 instance AdminLoggable Kick where
     colour = darkmagenta
     word = "Kicked"
+    phrase = "kicked from"
 
 kick :: BotC r => CommandContext -> Snowflake User -> [Text] -> Sem r ()
 kick ctx user reason = 
