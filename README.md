@@ -38,4 +38,4 @@ stack install --local-bin-path=bin/
 5. Run the executable to start the bot
 
 ## Contributing
-Issues and pull requests are always welcome - see [Contributing.md](Contributing.md)
+Issues and pull requests are always welcome - see [Contributing.md](Contributing.md) for more details
