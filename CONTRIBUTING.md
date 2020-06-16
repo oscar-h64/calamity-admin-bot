@@ -24,3 +24,5 @@ When opening a pull request:
 - Include Haddock comments for all functions/type definitions, as well as comments explaining logic where it may not be clear
 - Try to avoid long lines - if a line is looking long then split it across 2 lines, or use `let...in...` or `...where` if it makes your code more readable
 - Update the README with new features or changes to existing ones
+- Commands should get there own submodule under `Bot.Commands` (except obvious cases such as unbanning or unmuting). The `Bot.Commands` module should be updated to export these functions. The same applies to event handlers
+- Command handlers should be of the type `BotC r => CommandContext -> ... -> Sem r ()` where `...` is the arguments the command takes in order. This makes adding commands to `app/Main.hs` much neater. Event handlers should be the same without the `CommandContext` argument (`onMessageEdit` is an exception - simple things like this are allowed, just use common sense) 
