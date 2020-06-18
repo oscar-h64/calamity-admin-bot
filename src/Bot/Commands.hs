@@ -13,6 +13,7 @@ module Bot.Commands (
     unmute,
     ban,
     unban,
+    bulkban,
     kick,
     adminCheck
 ) where
