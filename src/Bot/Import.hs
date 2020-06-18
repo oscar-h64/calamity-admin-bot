@@ -23,15 +23,7 @@ import           Lens.Micro                                 as Bot.Import
 import           TextShow                                   as Bot.Import ( showt, showtl )
 import           Prelude                                    as Bot.Import hiding ( error )
 
-
-logChannel :: Snowflake Channel
-logChannel = Snowflake ***REMOVED***
-
-muteRole :: Snowflake Role
-muteRole = Snowflake ***REMOVED***
-
-serverName :: Text
-serverName = "***REMOVED***"
+import           Bot.Config                                 as Bot.Import
 
 info, debug :: BotC r => Text -> Sem r ()
 info = DiP.info
