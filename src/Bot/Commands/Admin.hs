@@ -28,7 +28,7 @@ import           Bot.Import
 check :: CommandContext -> Maybe L.Text
 check ctx = do
     member <- ctx ^. #member
-    if Snowflake ***REMOVED*** `V.elem` member ^. #roles then 
+    if adminRole `V.elem` member ^. #roles then 
         Nothing 
     else 
         Just "You must be an administator to do that"
