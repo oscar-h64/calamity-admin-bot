@@ -20,7 +20,7 @@ instance AdminLoggable Kick where
     word = "Kicked"
     phrase = "kicked from"
 
-kick :: BotC r => CommandContext -> Snowflake User -> [Text] -> Sem r ()
+kick :: BotC r => CommandContext -> Snowflake User -> Maybe Text -> Sem r ()
 kick ctx user reason = 
     doAdminAction @Kick ctx user reason [] $
         \g _ -> RemoveGuildMember g user
