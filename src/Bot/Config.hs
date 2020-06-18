@@ -11,6 +11,10 @@ module Bot.Config where
 import Calamity
 import Data.Text
 
+-- Replace BOT_SECRET with your client secret
+botSecret :: Token
+botSecret = BotToken "BOT_SECRET"
+
 -- Replace 000000000000000000 with the ID of your log channel
 logChannel :: Snowflake Channel
 logChannel = Snowflake 000000000000000000

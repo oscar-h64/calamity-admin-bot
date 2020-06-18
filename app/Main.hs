@@ -20,14 +20,13 @@ import qualified Polysemy                                   as P
 
 import           TextShow
 
-import Bot.Secret
 import Bot.Import
 import Bot.Commands
 import Bot.Events
 
 main :: IO ()
 main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . useConstantPrefix "!"
-        $ runBotIO secret $ do
+        $ runBotIO botSecret $ do
             -- Commands:
             addCommands $ do
                 -- Help command
