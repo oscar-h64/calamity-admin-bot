@@ -35,4 +35,6 @@ unban :: BotC r => CommandContext -> Snowflake User -> Maybe Text -> Sem r ()
 unban ctx user reason = 
     doAdminAction @Unban ctx user reason [] $ 
         \g _ -> RemoveGuildBan g user
-        
+
+bulkban :: BotC r => CommandContext -> [Snowflake User] -> Maybe Text -> Sem r ()
+bulkban ctx users reason = mapM_ (\u -> ban ctx u reason) users        
