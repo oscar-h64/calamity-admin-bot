@@ -12,6 +12,7 @@ module Bot.Import (
 
 import           Calamity                                   as Bot.Import
 import qualified Calamity.Commands.Context                  as CC ( Context(..) )
+import           Calamity.Commands.Parser                   ( KleenePlusConcat )
 import           Polysemy                                   as Bot.Import ( Sem(..) )
 import qualified DiPolysemy                                 as DiP
 import           Data.Maybe                                 as Bot.Import (fromMaybe, maybe, isJust)
@@ -33,3 +34,4 @@ tellt :: (BotC r, Tellable t) => t -> L.Text -> Sem r (Either RestError Message)
 tellt t m = tell t $ toStrict m
 
 type CommandContext = CC.Context
+type ActionReason = Maybe (KleenePlusConcat Text)

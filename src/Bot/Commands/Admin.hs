@@ -47,25 +47,23 @@ doAdminAction :: forall action r u
                . (AdminLoggable action, BotC r, Mentionable u, HasID User u) 
               => CommandContext 
               -> u
-              -> [Text]
+              -> Maybe Text
               -> [EmbedField]
               -> ToInvoke 
               -> Sem r ()
-doAdminAction ctx u reasonL fields toInvoke = case ctx ^. #guild of
+doAdminAction ctx u reasonM fields toInvoke = case ctx ^. #guild of
     Nothing -> void $ tellt ctx "Administrator actions must be performed in a guild"
     Just g -> do
         let 
             admin = ctx ^. #user
-            -- Nothing if no reason provided, otherwise Just reason
-            mr  = intercalate " " <$> if reasonL == [] then Nothing else Just reasonL
             -- Blank if no reason, otherwise reason
-            rna = fromMaybe "N/A" mr
+            rna = fromMaybe "N/A" reasonM
             -- Blank if no reason, otherwise " for " <> reason - useful for including reason in messages
-            rpr = fromMaybe "" $ (" for " <>) <$> mr
+            rpr = fromMaybe "" $ (" for " <>) <$> reasonM
             -- Reason to send with request
             rr = "Requested by " <> toStrict (displayUser admin) <> rpr
 
-        invoke $ CR.reason rr $ toInvoke g mr
+        invoke $ CR.reason rr $ toInvoke g reasonM
         dmChannel <- invoke $ CreateDM u
         
         case dmChannel of 
