@@ -10,5 +10,5 @@ module Bot.Commands.Invite where
 
 import Bot.Import
 
-invite :: (BotC r) => CommandContext -> Sem r ()
-invite = void . flip tellt "Invite Link: ***REMOVED***"
+invite :: BotC r => CommandContext -> Sem r ()
+invite = void . flip tellt (fromStrict $ "Invite Link: " <> inviteLink)

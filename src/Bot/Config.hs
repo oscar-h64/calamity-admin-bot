@@ -23,6 +23,10 @@ muteRole = Snowflake 000000000000000000
 adminRole :: Snowflake Role
 adminRole = Snowflake 000000000000000000
 
+-- Replace INVITE_LINK with the invite link of your server
+inviteLink :: Text
+inviteLink = "INVITE_LINK"
+
 -- Replace SERVER_NAME with the name of your server
 serverName :: Text
 serverName = "SERVER_NAME"
