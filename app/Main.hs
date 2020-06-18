@@ -17,6 +17,7 @@ import           Calamity.Metrics.Noop                      ( runMetricsNoop )
 import qualified Data.Text.Lazy                             as L
 
 import qualified Polysemy                                   as P
+import qualified Polysemy.Reader                            as P
 
 import           TextShow
 
@@ -27,7 +28,7 @@ import Bot.Events
 
 main :: IO ()
 main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . useConstantPrefix "!"
-        $ runBotIO botSecret $ do
+        $ runBotIO (botSecret tempConf) $ P.runReader tempConf $ do
             -- Commands:
             addCommands $ do
                 -- Help command

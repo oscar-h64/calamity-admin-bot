@@ -43,6 +43,7 @@ default-extensions:
 - ScopedTypeVariables
 - ConstrainedClassMethods
 - FlexibleContexts
+- TypeOperators
 
 library:
   source-dirs: src
