@@ -13,8 +13,8 @@ This is a discord bot written in Haskell using the [calamity library](https://ha
     - `!tempmute :u :t :r`: Mutes the user `u` for `t` time optionall with reason `r` (NOT YET COMPLETE)
     - `!ban :u :r`: Bans the user `u` optionally with reason `r`
     - `!unban :u :r`: Unbans the user `u`, optionally with reason `r`
-    - `!bulkban :u1 :u2 ... :un :r`: Bans all the given users for the given reason. Accepts any number of users
-    - Note that all commands that take a user/users accept either a mention or just the ID. Banning will work even if the user is not in the server
+    - `!bulkban :u1 :u2 ... :un :r`: Bans all the given users, optionally with reason `r`. Accepts any number of users
+    - Note that all commands that take users accept either mentions or IDs. Banning will work even if the user is not in the server
     - Commands from `kick` onwards require the user to have an "Administrator" role
 - Message edits and deletes are logged into a log channel
 - Administrator actions (commands from `kick` onwards) are logged into the log channel, and a suitable reason is provided with the request for Discord's audit log
