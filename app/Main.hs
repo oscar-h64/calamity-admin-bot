@@ -43,19 +43,19 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
 
                 -- User Mute
                 muteCheck $ help (const "Mutes the given user for the given reason") $
-                    command @'[Snowflake User, [Text]] "mute" Bot.Commands.mute
+                    command @'[Snowflake User, ActionReason] "mute" Bot.Commands.mute
 
                 -- User Unmute
                 muteCheck $ help (const "Unmutes the given user for the given reason") $
-                    command @'[Snowflake User, [Text]] "unmute" unmute
+                    command @'[Snowflake User, ActionReason] "unmute" unmute
 
                 -- User Ban
                 banCheck $ help (const "Bans the given user for the given reason") $
-                    command @'[Snowflake User, [Text]] "ban" ban
+                    command @'[Snowflake User, ActionReason] "ban" ban
                 
                 -- User Unban
                 banCheck $ help (const "Unbans the given user for the given reason") $
-                    command @'[Snowflake User, [Text]] "unban" unban
+                    command @'[Snowflake User, ActionReason] "unban" unban
                 
                 -- Bulk user ban
                 banCheck $ help (const "Bans the given users for the given reason") $
@@ -63,7 +63,7 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
 
                 -- User Kick
                 kickCheck $ help (const "Kicks the given user for the given reason") $
-                    command @'[Snowflake User, [Text]] "kick" kick
+                    command @'[Snowflake User, ActionReason] "kick" kick
 
             -- Event Handlers:
             -- Message Edit:
