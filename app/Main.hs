@@ -22,6 +22,7 @@ import           TextShow
 
 import Bot.Import
 import Bot.Commands
+import Bot.Commands.Check
 import Bot.Events
 
 main :: IO ()
@@ -41,28 +42,28 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
                     command @'[] "invite" invite
 
                 -- User Mute
-                adminCheck $ help (const "Mutes the given user for the given reason") $
-                    command @'[Snowflake User, ActionReason] "mute" Bot.Commands.mute
+                muteCheck $ help (const "Mutes the given user for the given reason") $
+                    command @'[Snowflake User, [Text]] "mute" Bot.Commands.mute
 
                 -- User Unmute
-                adminCheck $ help (const "Unmutes the given user for the given reason") $
-                    command @'[Snowflake User, ActionReason] "unmute" unmute
+                muteCheck $ help (const "Unmutes the given user for the given reason") $
+                    command @'[Snowflake User, [Text]] "unmute" unmute
 
                 -- User Ban
-                adminCheck $ help (const "Bans the given user for the given reason") $
-                    command @'[Snowflake User, ActionReason] "ban" ban
+                banCheck $ help (const "Bans the given user for the given reason") $
+                    command @'[Snowflake User, [Text]] "ban" ban
                 
                 -- User Unban
-                adminCheck $ help (const "Unbans the given user for the given reason") $
-                    command @'[Snowflake User, ActionReason] "unban" unban
-                
-                -- User Ban
-                adminCheck $ help (const "Kicks the given user for the given reason") $
-                    command @'[Snowflake User, ActionReason] "kick" kick
+                banCheck $ help (const "Unbans the given user for the given reason") $
+                    command @'[Snowflake User, [Text]] "unban" unban
                 
                 -- Bulk user ban
-                adminCheck $ help (const "Bans the given users for the given reason") $
+                banCheck $ help (const "Bans the given users for the given reason") $
                     command @'[[Snowflake User], ActionReason] "bulkban" bulkban
+
+                -- User Kick
+                kickCheck $ help (const "Kicks the given user for the given reason") $
+                    command @'[Snowflake User, [Text]] "kick" kick
 
             -- Event Handlers:
             -- Message Edit:

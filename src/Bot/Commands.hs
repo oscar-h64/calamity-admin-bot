@@ -14,8 +14,7 @@ module Bot.Commands (
     ban,
     unban,
     bulkban,
-    kick,
-    adminCheck
+    kick
 ) where
 
 import Bot.Commands.Ping
@@ -23,4 +22,3 @@ import Bot.Commands.Invite
 import Bot.Commands.Mute
 import Bot.Commands.Ban
 import Bot.Commands.Kick
-import Bot.Commands.Admin (adminCheck)

@@ -7,34 +7,19 @@
 -- Copyright 2020 Oscar Harris (oscar@oscar-h.com)                            --
 --------------------------------------------------------------------------------
 module Bot.Commands.Admin (
-    adminCheck,
     AdminLoggable(..),
     doAdminAction
 ) where
 
-import           Calamity.Commands.Dsl ( DSLState, requiresPure )
 import qualified Calamity.HTTP.Reason as CR (reason) 
 
 import           Data.Colour (Colour)
 import           Data.Default
-import qualified Data.Text.Lazy as L ( Text )
 import           Data.Time.Clock ( getCurrentTime )
-import qualified Data.Vector.Unboxed as V ( elem )
 
 import qualified Polysemy as P
 
 import           Bot.Import
-
-check :: CommandContext -> Maybe L.Text
-check ctx = do
-    member <- ctx ^. #member
-    if adminRole `V.elem` member ^. #roles then 
-        Nothing 
-    else 
-        Just "You must be an administator to do that"
-
-adminCheck :: Sem (DSLState r) a -> Sem (DSLState r) a
-adminCheck = requiresPure [("adminCheck", check)]
 
 class AdminLoggable a where
     colour :: AdminLoggable a => Colour Double
