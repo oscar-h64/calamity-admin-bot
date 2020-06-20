@@ -45,6 +45,7 @@ default-extensions:
 - FlexibleContexts
 - TypeOperators
 - ConstraintKinds
+- GADTs
 
 library:
   source-dirs: src
