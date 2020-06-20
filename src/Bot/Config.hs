@@ -44,13 +44,6 @@ toFieldName = kebab . while isUpper toLower . dropWhile isLower
             | p x       = f x : while p f xs
             | otherwise = x : xs
 
--- instance FromJSON Token where
---     parseJSON = withText "Token" (pure . BotToken . fromStrict) 
-
-
--- instance FromJSON BotConfig where
---     parseJSON = genericParseJSON jsonOpts
-
 instance FromJSON BotConfig where
     parseJSON = withObject "BotConfig" $ \v -> BotConfig
                     <$> (BotToken <$> v .: "bot-secret")
