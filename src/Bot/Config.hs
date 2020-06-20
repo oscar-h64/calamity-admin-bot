@@ -18,25 +18,26 @@ import Data.Aeson
 import Data.Char    ( isLower, isUpper, toLower )
 import Data.Text    ( Text )
 
+import Text.Casing  ( kebab )
+
 import GHC.Generics ( Generic )
 
 data BotConfig = BotConfig {
-    botSecret :: Token,
-    logChannel :: Snowflake Channel,
-    muteRole :: Snowflake Role,
-    toMuteRoles :: [Snowflake Role],
-    inviteLink :: Text,
-    serverName :: Text
+    bcBotSecret :: Token,
+    bcLogChannel :: Snowflake Channel,
+    bcMuteRole :: Snowflake Role,
+    bcToMuteRoles :: [Snowflake Role],
+    bcInviteLink :: Text,
+    bcServerName :: Text
 } deriving Generic
 
 jsonOpts :: Options
 jsonOpts = defaultOptions {
-    fieldLabelModifier = toFieldName,
-    tagSingleConstructors = True
+    fieldLabelModifier = toFieldName
 }
 
 toFieldName :: String -> String
-toFieldName = while isUpper toLower . dropWhile isLower
+toFieldName = kebab . while isUpper toLower . dropWhile isLower
     where while _ _ [] = []
           while p f (x:xs)
             | p x       = f x : while p f xs

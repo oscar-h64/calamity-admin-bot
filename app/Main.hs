@@ -32,7 +32,7 @@ import Bot.Events
 
 runBot :: BotConfig -> IO ()
 runBot conf = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . useConstantPrefix "!"
-        $ runBotIO (botSecret conf) $ P.runReader conf $ do
+        $ runBotIO (bcBotSecret conf) $ P.runReader conf $ do
             -- Commands:
             addCommands $ do
                 -- Help command
@@ -47,11 +47,11 @@ runBot conf = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetrics
                     command @'[] "invite" invite
 
                 -- User Mute
-                muteCheck (toMuteRoles conf) <$> help (const "Mutes the given user for the given reason") $
+                muteCheck (bcToMuteRoles conf) <$> help (const "Mutes the given user for the given reason") $
                     command @'[Snowflake User, ActionReason] "mute" Bot.Commands.mute
 
                 -- User Unmute
-                muteCheck (toMuteRoles conf) $ help (const "Unmutes the given user for the given reason") $
+                muteCheck (bcToMuteRoles conf) $ help (const "Unmutes the given user for the given reason") $
                     command @'[Snowflake User, ActionReason] "unmute" unmute
 
                 -- User Ban

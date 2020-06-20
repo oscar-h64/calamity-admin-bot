@@ -28,13 +28,13 @@ instance AdminLoggable Unmute where
 
 mute :: BotReader r => CommandContext -> Snowflake User -> Maybe Text -> Sem r ()
 mute ctx user reason = do
-    mr <- muteRole <$> ask
+    mr <- bcMuteRole <$> ask
     doAdminAction @Mute ctx user reason [] $
         \g _ -> AddGuildMemberRole g user mr
 
 unmute :: BotReader r => CommandContext -> Snowflake User -> Maybe Text -> Sem r ()
 unmute ctx user reason = do
-    mr <- muteRole <$> ask
+    mr <- bcMuteRole <$> ask
     doAdminAction @Unmute ctx user reason [] $
         \g _ -> RemoveGuildMemberRole g user mr
 

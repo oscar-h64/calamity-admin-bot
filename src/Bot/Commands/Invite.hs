@@ -15,5 +15,5 @@ import Bot.Import
 
 invite :: BotReader r => CommandContext -> Sem r ()
 invite ctx = do
-    link <- inviteLink <$> ask
+    link <- bcInviteLink <$> ask
     void $ tellt ctx (fromStrict $ "Invite Link: " <> link)

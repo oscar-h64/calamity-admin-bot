@@ -56,7 +56,7 @@ doAdminAction ctx u reasonM fields toInvoke = case ctx ^. #guild of
         case dmChannel of 
             Left _   -> return ()
             Right dm -> void $ tellt dm $ fromStrict $ 
-                            "You have been " <> phrase @action <> " " <> serverName conf <> rpr  
+                            "You have been " <> phrase @action <> " " <> bcServerName conf <> rpr  
 
         tellt ctx $ fromStrict (word @action) <> " " <> mention u
         time <- P.embed getCurrentTime
@@ -67,4 +67,4 @@ doAdminAction ctx u reasonM fields toInvoke = case ctx ^. #guild of
                                     : EmbedField "Time" (showtl time) True
                                     : EmbedField "Reason" (fromStrict rna) False
                                     : fields
-        void $ tell @Embed (logChannel conf) embed
+        void $ tell @Embed (bcLogChannel conf) embed

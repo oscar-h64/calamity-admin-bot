@@ -15,7 +15,7 @@ import Bot.Import
 
 onMessageEdit :: BotC r => Message -> Message -> Sem (Reader BotConfig ': r) ()
 onMessageEdit m1 m2 = do
-    lc <- logChannel <$> ask
+    lc <- bcLogChannel <$> ask
     let origtext = m1 ^. #content
         newtext  = m2 ^. #content
         author   = m2 ^. #author

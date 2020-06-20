@@ -15,7 +15,7 @@ import Bot.Import
 
 onMessageDelete :: BotC r => Message -> Sem (Reader BotConfig ': r) ()
 onMessageDelete m = do
-    lc <- logChannel <$> ask
+    lc <- bcLogChannel <$> ask
     let text     = m ^. #content
         author   = m ^. #author
         channel  = m ^. #channelID
