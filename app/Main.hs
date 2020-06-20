@@ -46,11 +46,11 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
                     command @'[] "invite" invite
 
                 -- User Mute
-                (muteCheck <$> toMuteRoles <$> ask) <$> help (const "Mutes the given user for the given reason") $
+                muteCheck (toMuteRoles tempConf) <$> help (const "Mutes the given user for the given reason") $
                     command @'[Snowflake User, ActionReason] "mute" Bot.Commands.mute
 
                 -- User Unmute
-                ((muteCheck . toMuteRoles) <$> ask) <$> help (const "Unmutes the given user for the given reason") $
+                muteCheck (toMuteRoles tempConf) $ help (const "Unmutes the given user for the given reason") $
                     command @'[Snowflake User, ActionReason] "unmute" unmute
 
                 -- User Ban
