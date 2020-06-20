@@ -1,6 +1,6 @@
-name:                discord-test
+name:                calamity-admin-bot
 version:             0.1.0.0
-github:              "oscar-h64/discord-test"
+github:              "oscar-h64/calamity-admin-bot"
 license:             BSD3
 author:              "Oscar Harris"
 maintainer:          "oscar@oscar-h.com"
@@ -16,7 +16,7 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/oscar-h64/discord-test#readme>
+description:         Please see the README on GitHub at <https://github.com/oscar-h64/calamity-admin-bot#readme>
 
 dependencies:
 - base >= 4.7 && < 5
