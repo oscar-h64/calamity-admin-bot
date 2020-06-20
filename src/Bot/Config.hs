@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
--- Discord Test Bot                                                           --
+-- Calamity Admin Bot                                                         --
 --------------------------------------------------------------------------------
 -- This source code is licensed under the BSD3 licence found in the LICENSE   --
 -- file in the root directory of this source tree.                            --
@@ -23,9 +23,10 @@ logChannel = Snowflake 000000000000000000
 muteRole :: Snowflake Role
 muteRole = Snowflake 000000000000000000
 
--- Replace 000000000000000000 with the ID of your admin role
-adminRole :: Snowflake Role
-adminRole = Snowflake 000000000000000000
+-- Replace 000000000000000000 with the ID of the roles able to 
+-- mute members
+toMuteRoles :: [Snowflake Role]
+toMuteRoles = [Snowflake 000000000000000000]
 
 -- Replace INVITE_LINK with the invite link of your server
 inviteLink :: Text
