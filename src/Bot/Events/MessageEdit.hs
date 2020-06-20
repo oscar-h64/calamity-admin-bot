@@ -13,8 +13,9 @@ import Data.Colour.Names
 
 import Bot.Import
 
-onMessageEdit :: BotC r => Message -> Message -> Sem r ()
+onMessageEdit :: BotC r => Message -> Message -> Sem (Reader BotConfig ': r) ()
 onMessageEdit m1 m2 = do
+    lc <- bcLogChannel <$> ask
     let origtext = m1 ^. #content
         newtext  = m2 ^. #content
         author   = m2 ^. #author
@@ -32,4 +33,4 @@ onMessageEdit m1 m2 = do
                         EmbedField "Edited" edittime True,                      
                         EmbedField "New Text" newtext True
                     ]
-    void $ tell @Embed logChannel embed
+    void $ tell @Embed lc embed

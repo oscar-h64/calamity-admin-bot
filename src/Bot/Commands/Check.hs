@@ -36,8 +36,8 @@ testRoles roles ctx = do
     else
         Just "You do not have permission to do that"
 
-muteCheck :: Sem (DSLState r) a -> Sem (DSLState r) a 
-muteCheck = requiresPure [("Mute Permission Check", testRoles toMuteRoles)]
+muteCheck :: [Snowflake Role] -> Sem (DSLState r) a -> Sem (DSLState r) a 
+muteCheck rs = requiresPure [("Mute Permission Check", testRoles rs)]
 
 kickCheck :: Sem (DSLState r) a -> Sem (DSLState r) a
 kickCheck = requiresPure [("Kick Permission Check", testPermission kickMembers)]

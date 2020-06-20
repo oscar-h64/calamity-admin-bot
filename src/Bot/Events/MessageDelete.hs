@@ -13,8 +13,9 @@ import Data.Colour.Names
 
 import Bot.Import
 
-onMessageDelete :: BotC r => Message -> Sem r ()
+onMessageDelete :: BotC r => Message -> Sem (Reader BotConfig ': r) ()
 onMessageDelete m = do
+    lc <- bcLogChannel <$> ask
     let text     = m ^. #content
         author   = m ^. #author
         channel  = m ^. #channelID
@@ -27,4 +28,4 @@ onMessageDelete m = do
                         EmbedField "Sent" origtime True,
                         EmbedField "Content" text False
                     ]
-    void $ tell @Embed logChannel embed
+    void $ tell @Embed lc embed

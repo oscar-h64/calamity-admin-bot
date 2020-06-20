@@ -1,3 +1,4 @@
+{-# LANGUAGE GADTs #-}
 --------------------------------------------------------------------------------
 -- Calamity Admin Bot                                                         --
 --------------------------------------------------------------------------------
@@ -11,12 +12,16 @@
 module Main where
 
 import           Calamity.Commands
+import           Calamity.Commands.CommandUtils             ( CommandForParsers, TypedCommandC )
+import           Calamity.Commands.Command                  ( Command )
 import           Calamity.Cache.InMemory                    ( runCacheInMemory )
 import           Calamity.Metrics.Noop                      ( runMetricsNoop )
 
 import qualified Data.Text.Lazy                             as L
+import           Data.Yaml                                  ( prettyPrintParseException, decodeFileEither )
 
 import qualified Polysemy                                   as P
+import qualified Polysemy.Reader                            as P
 
 import           TextShow
 
@@ -25,9 +30,9 @@ import Bot.Commands
 import Bot.Commands.Check
 import Bot.Events
 
-main :: IO ()
-main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . useConstantPrefix "!"
-        $ runBotIO botSecret $ do
+runBot :: BotConfig -> IO ()
+runBot conf = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . useConstantPrefix "!"
+        $ runBotIO (bcBotSecret conf) $ P.runReader conf $ do
             -- Commands:
             addCommands $ do
                 -- Help command
@@ -42,11 +47,11 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
                     command @'[] "invite" invite
 
                 -- User Mute
-                muteCheck $ help (const "Mutes the given user for the given reason") $
+                muteCheck (bcToMuteRoles conf) <$> help (const "Mutes the given user for the given reason") $
                     command @'[Snowflake User, ActionReason] "mute" Bot.Commands.mute
 
                 -- User Unmute
-                muteCheck $ help (const "Unmutes the given user for the given reason") $
+                muteCheck (bcToMuteRoles conf) $ help (const "Unmutes the given user for the given reason") $
                     command @'[Snowflake User, ActionReason] "unmute" unmute
 
                 -- User Ban
@@ -80,3 +85,11 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
                         "Failed to parse parameter: `" <> L.fromStrict n <> "`, with reason: ```\n" <> r <> "```"
                     CheckError n r -> void . tellt ctx $ 
                         "The following check failed: " <> codeline (L.fromStrict n) <> ", with reason: " <> codeblock' Nothing r
+
+main :: IO ()
+main = do
+    conf <- decodeFileEither "config/settings.yaml"
+    case conf of
+        Left err -> putStrLn $ prettyPrintParseException err 
+        Right conf -> runBot conf
+    

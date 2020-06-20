@@ -6,32 +6,37 @@
 --                                                                            --
 -- Copyright 2020 Oscar Harris (oscar@oscar-h.com)                            --
 --------------------------------------------------------------------------------
-module Bot.Config where
+module Bot.Config (
+    BotConfig(..)
+) where
 
-import Calamity
-import Data.Text
+import Prelude
 
--- Replace BOT_SECRET with your client secret
-botSecret :: Token
-botSecret = BotToken "BOT_SECRET"
+import Calamity       ( Token(..), Snowflake(..), Channel, Role )
 
--- Replace 000000000000000000 with the ID of your log channel
-logChannel :: Snowflake Channel
-logChannel = Snowflake 000000000000000000
+import Data.Aeson
+import Data.Char      ( isLower, isUpper, toLower )
+import Data.Text      ( Text )
+import Data.Text.Lazy ( fromStrict )
 
--- Replace 000000000000000000 with the ID of your mute role
-muteRole :: Snowflake Role
-muteRole = Snowflake 000000000000000000
+import Text.Casing    ( kebab )
 
--- Replace 000000000000000000 with the ID of the roles able to 
--- mute members
-toMuteRoles :: [Snowflake Role]
-toMuteRoles = [Snowflake 000000000000000000]
+import GHC.Generics   ( Generic )
 
--- Replace INVITE_LINK with the invite link of your server
-inviteLink :: Text
-inviteLink = "INVITE_LINK"
+data BotConfig = BotConfig {
+    bcBotSecret :: Token,
+    bcLogChannel :: Snowflake Channel,
+    bcMuteRole :: Snowflake Role,
+    bcToMuteRoles :: [Snowflake Role],
+    bcInviteLink :: Text,
+    bcServerName :: Text
+}
 
--- Replace SERVER_NAME with the name of your server
-serverName :: Text
-serverName = "SERVER_NAME"
+instance FromJSON BotConfig where
+    parseJSON = withObject "BotConfig" $ \v -> BotConfig
+                    <$> (BotToken <$> v .: "bot-secret")
+                    <*> (Snowflake <$> v .: "log-channel")
+                    <*> (Snowflake <$> v .: "mute-role")
+                    <*> (map (Snowflake) <$> (v .: "to-mute-roles"))
+                    <*> v .: "invite-link"
+                    <*> v .: "server-name"
