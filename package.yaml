@@ -32,6 +32,8 @@ dependencies:
 - time
 - vector
 - data-flags
+- aeson
+- yaml
 
 default-extensions:
 - OverloadedStrings
@@ -46,6 +48,7 @@ default-extensions:
 - TypeOperators
 - ConstraintKinds
 - GADTs
+- DeriveGeneric
 
 library:
   source-dirs: src
@@ -54,7 +57,7 @@ library:
     - -fplugin=Polysemy.Plugin
 
 executables:
-  discord-test-exe:
+  calamity-admin-bot-exe:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
@@ -64,10 +67,10 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - discord-test
+    - calamity-admin-bot
 
 tests:
-  discord-test-test:
+  calamity-admin-bot-test:
     main:                Spec.hs
     source-dirs:         test
     ghc-options:
@@ -75,4 +78,4 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - discord-test
+    - calamity-admin-bot

@@ -6,10 +6,19 @@
 --                                                                            --
 -- Copyright 2020 Oscar Harris (oscar@oscar-h.com)                            --
 --------------------------------------------------------------------------------
-module Bot.Config where
+module Bot.Config (
+    BotConfig(..)
+) where
 
-import Calamity
-import Data.Text
+import Prelude
+
+import Calamity     ( Token, Snowflake, Channel, Role )
+
+import Data.Aeson
+import Data.Char    ( isLower, isUpper, toLower )
+import Data.Text    ( Text )
+
+import GHC.Generics ( Generic )
 
 data BotConfig = BotConfig {
     botSecret :: Token,
@@ -18,39 +27,22 @@ data BotConfig = BotConfig {
     toMuteRoles :: [Snowflake Role],
     inviteLink :: Text,
     serverName :: Text
+} deriving Generic
+
+jsonOpts :: Options
+jsonOpts = defaultOptions {
+    fieldLabelModifier = toFieldName,
+    tagSingleConstructors = True
 }
 
-tempConf :: BotConfig
-tempConf = BotConfig {
-    botSecret = BotToken "BOT_SECRET",
-    logChannel = Snowflake 000000000000000000,
-    muteRole = Snowflake 000000000000000000,
-    toMuteRoles = [Snowflake 000000000000000000],
-    inviteLink = "INVITE_LINK",
-    serverName = "SERVER_NAME"
-}
+toFieldName :: String -> String
+toFieldName = while isUpper toLower . dropWhile isLower
+    where while _ _ [] = []
+          while p f (x:xs)
+            | p x       = f x : while p f xs
+            | otherwise = x : xs
 
--- -- Replace BOT_SECRET with your client secret
--- botSecret :: Token
--- botSecret = BotToken "BOT_SECRET"
+instance FromJSON Token
 
--- -- Replace 000000000000000000 with the ID of the roles able to 
--- -- mute members
--- toMuteRoles :: [Snowflake Role]
--- toMuteRoles = [Snowflake 000000000000000000]
-
--- -- Replace 000000000000000000 with the ID of your log channel
--- logChannel :: Snowflake Channel
--- logChannel = Snowflake 000000000000000000
-
--- -- Replace 000000000000000000 with the ID of your mute role
--- muteRole :: Snowflake Role
--- muteRole = Snowflake 000000000000000000
-
--- -- Replace INVITE_LINK with the invite link of your server
--- inviteLink :: Text
--- inviteLink = "INVITE_LINK"
-
--- -- Replace SERVER_NAME with the name of your server
--- serverName :: Text
--- serverName = "SERVER_NAME"
+instance FromJSON BotConfig where
+    parseJSON = genericParseJSON jsonOpts
