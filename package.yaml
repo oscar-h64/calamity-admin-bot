@@ -44,6 +44,7 @@ default-extensions:
 - ConstrainedClassMethods
 - FlexibleContexts
 - TypeOperators
+- ConstraintKinds
 
 library:
   source-dirs: src

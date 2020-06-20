@@ -29,13 +29,13 @@ class AdminLoggable a where
 type ToInvoke = Guild -> Maybe Text -> GuildRequest ()
 
 doAdminAction :: forall action r u
-               . (AdminLoggable action, BotC r, Mentionable u, HasID User u) 
+               . (AdminLoggable action, BotReader r, Mentionable u, HasID User u) 
               => CommandContext 
               -> u
               -> Maybe Text
               -> [EmbedField]
               -> ToInvoke 
-              -> Sem (Reader BotConfig ': r) ()
+              -> Sem r ()
 doAdminAction ctx u reasonM fields toInvoke = case ctx ^. #guild of
     Nothing -> void $ tellt ctx "Administrator actions must be performed in a guild"
     Just g -> do

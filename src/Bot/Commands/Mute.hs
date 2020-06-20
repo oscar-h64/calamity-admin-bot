@@ -26,13 +26,13 @@ instance AdminLoggable Unmute where
     word = "Unmuted"
     phrase = "unmuted in"
 
-mute :: BotC r => CommandContext -> Snowflake User -> Maybe Text -> Sem (Reader BotConfig ': r) ()
+mute :: BotReader r => CommandContext -> Snowflake User -> Maybe Text -> Sem r ()
 mute ctx user reason = do
     mr <- muteRole <$> ask
     doAdminAction @Mute ctx user reason [] $
         \g _ -> AddGuildMemberRole g user mr
 
-unmute :: BotC r => CommandContext -> Snowflake User -> Maybe Text -> Sem (Reader BotConfig ': r) ()
+unmute :: BotReader r => CommandContext -> Snowflake User -> Maybe Text -> Sem r ()
 unmute ctx user reason = do
     mr <- muteRole <$> ask
     doAdminAction @Unmute ctx user reason [] $

@@ -26,15 +26,15 @@ instance AdminLoggable Unban where
     word = "Unbanned"
     phrase = "unbanned from"
 
-ban :: BotC r => CommandContext -> Snowflake User -> Maybe Text -> Sem (Reader BotConfig ': r) ()
+ban :: BotReader r => CommandContext -> Snowflake User -> Maybe Text -> Sem r ()
 ban ctx user reason = 
     doAdminAction @Ban ctx user reason [] $ 
         \g r -> CreateGuildBan g user $ CreateGuildBanData Nothing r
 
-unban :: BotC r => CommandContext -> Snowflake User -> Maybe Text -> Sem (Reader BotConfig ': r) ()
+unban :: BotReader r => CommandContext -> Snowflake User -> Maybe Text -> Sem r ()
 unban ctx user reason = 
     doAdminAction @Unban ctx user reason [] $ 
         \g _ -> RemoveGuildBan g user
 
-bulkban :: BotC r => CommandContext -> [Snowflake User] -> Maybe Text -> Sem (Reader BotConfig ': r) ()
+bulkban :: BotReader r => CommandContext -> [Snowflake User] -> Maybe Text -> Sem r ()
 bulkban ctx users reason = mapM_ (\u -> ban ctx u reason) users

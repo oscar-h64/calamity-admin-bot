@@ -8,11 +8,12 @@
 --------------------------------------------------------------------------------
 module Bot.Commands.Invite where
 
-import Polysemy.Reader
+import qualified Polysemy        as P
+import qualified Polysemy.Reader as P
 
 import Bot.Import
 
-invite :: BotC r => CommandContext -> Sem (Reader BotConfig ': r) ()
+invite :: BotReader r => CommandContext -> Sem r ()
 invite ctx = do
     link <- inviteLink <$> ask
     void $ tellt ctx (fromStrict $ "Invite Link: " <> link)

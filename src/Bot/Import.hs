@@ -15,6 +15,7 @@ import qualified Calamity.Commands.Context                  as CC ( Context(..) 
 import           Calamity.Commands.Parser                   ( KleenePlusConcat )
 import           Polysemy                                   as Bot.Import ( Sem(..) )
 import           Polysemy.Reader                            as Bot.Import
+import qualified Polysemy                                   as P
 import qualified DiPolysemy                                 as DiP
 import           Data.Maybe                                 as Bot.Import (fromMaybe, maybe, isJust)
 import           Data.Text                                  as Bot.Import ( Text, intercalate )
@@ -26,6 +27,8 @@ import           TextShow                                   as Bot.Import ( show
 import           Prelude                                    as Bot.Import hiding ( error )
 
 import           Bot.Config                                 as Bot.Import
+
+type BotReader r = (P.Member (Reader BotConfig) r, BotC r)
 
 info, debug :: BotC r => Text -> Sem r ()
 info = DiP.info
