@@ -1,0 +1,19 @@
+# Enter your bot secret here
+bot-secret: BOT_SECRET
+
+# Enter the ID of the logging channel here
+log-channel: 000000000000000000
+
+# Enter the ID of the mute role here
+mute-role: 000000000000000000
+
+# Enter the IDs of the roles allowed to mute/tempmute/unmute users
+to-mute-roles:
+- 000000000000000000
+- 000000000000000001
+
+# Enter the server invite link here
+invite-link: https://discord.gg/XXXXXX
+
+# Enter the name of your server here
+server-name: Example Server

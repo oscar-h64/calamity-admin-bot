@@ -12,15 +12,16 @@ module Bot.Config (
 
 import Prelude
 
-import Calamity     ( Token, Snowflake, Channel, Role )
+import Calamity       ( Token(..), Snowflake(..), Channel, Role )
 
 import Data.Aeson
-import Data.Char    ( isLower, isUpper, toLower )
-import Data.Text    ( Text )
+import Data.Char      ( isLower, isUpper, toLower )
+import Data.Text      ( Text )
+import Data.Text.Lazy ( fromStrict )
 
-import Text.Casing  ( kebab )
+import Text.Casing    ( kebab )
 
-import GHC.Generics ( Generic )
+import GHC.Generics   ( Generic )
 
 data BotConfig = BotConfig {
     bcBotSecret :: Token,
@@ -43,7 +44,18 @@ toFieldName = kebab . while isUpper toLower . dropWhile isLower
             | p x       = f x : while p f xs
             | otherwise = x : xs
 
-instance FromJSON Token
+-- instance FromJSON Token where
+--     parseJSON = withText "Token" (pure . BotToken . fromStrict) 
+
+
+-- instance FromJSON BotConfig where
+--     parseJSON = genericParseJSON jsonOpts
 
 instance FromJSON BotConfig where
-    parseJSON = genericParseJSON jsonOpts
+    parseJSON = withObject "BotConfig" $ \v -> BotConfig
+                    <$> (BotToken <$> v .: "bot-secret")
+                    <*> (Snowflake <$> v .: "log-channel")
+                    <*> (Snowflake <$> v .: "mute-role")
+                    <*> (map (Snowflake) <$> (v .: "to-mute-roles"))
+                    <*> v .: "invite-link"
+                    <*> v .: "server-name"
