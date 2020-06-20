@@ -13,7 +13,7 @@ module Bot.Commands.Check (
 ) where
 
 import           Calamity.Commands.Dsl      ( DSLState, requiresPure )
-import           Data.Flags                 ( andFlags )
+import           Data.Flags                 ( (.*.) )
 import qualified Data.Text.Lazy        as L ( Text )
 import qualified Data.Vector.Unboxed   as V ( elem )
 
@@ -23,7 +23,7 @@ testPermission :: Permissions -> CommandContext -> Maybe L.Text
 testPermission permission ctx = do
     member <- ctx ^. #member
     guild <- ctx ^. #guild
-    if basePermissions guild member `andFlags` permission == permission then
+    if any (\p -> basePermissions guild member .*. p == p) [permission, administrator] then
         Nothing
     else
         Just "You do not have permission to do that"
