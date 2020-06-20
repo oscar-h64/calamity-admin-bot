@@ -1,3 +1,4 @@
+{-# LANGUAGE GADTs #-}
 --------------------------------------------------------------------------------
 -- Calamity Admin Bot                                                         --
 --------------------------------------------------------------------------------
@@ -25,6 +26,8 @@ import Bot.Import
 import Bot.Commands
 import Bot.Commands.Check
 import Bot.Events
+import Calamity.Commands.CommandUtils (CommandForParsers, TypedCommandC)
+import Calamity.Commands.Command (Command)
 
 main :: IO ()
 main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . useConstantPrefix "!"
@@ -43,11 +46,11 @@ main = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . 
                     command @'[] "invite" invite
 
                 -- User Mute
-                muteCheck $ help (const "Mutes the given user for the given reason") $
+                (muteCheck <$> toMuteRoles <$> ask) <$> help (const "Mutes the given user for the given reason") $
                     command @'[Snowflake User, ActionReason] "mute" Bot.Commands.mute
 
                 -- User Unmute
-                muteCheck $ help (const "Unmutes the given user for the given reason") $
+                ((muteCheck . toMuteRoles) <$> ask) <$> help (const "Unmutes the given user for the given reason") $
                     command @'[Snowflake User, ActionReason] "unmute" unmute
 
                 -- User Ban

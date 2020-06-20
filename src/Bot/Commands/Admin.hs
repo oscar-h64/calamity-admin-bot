@@ -35,7 +35,7 @@ doAdminAction :: forall action r u
               -> Maybe Text
               -> [EmbedField]
               -> ToInvoke 
-              -> Sem r ()
+              -> Sem (Reader BotConfig ': r) ()
 doAdminAction ctx u reasonM fields toInvoke = case ctx ^. #guild of
     Nothing -> void $ tellt ctx "Administrator actions must be performed in a guild"
     Just g -> do
@@ -47,6 +47,8 @@ doAdminAction ctx u reasonM fields toInvoke = case ctx ^. #guild of
             rpr = fromMaybe "" $ (" for " <>) <$> reasonM
             -- Reason to send with request
             rr = "Requested by " <> toStrict (displayUser admin) <> rpr
+        -- Bot config:
+        conf <- ask
 
         invoke $ CR.reason rr $ toInvoke g reasonM
         dmChannel <- invoke $ CreateDM u
@@ -54,7 +56,7 @@ doAdminAction ctx u reasonM fields toInvoke = case ctx ^. #guild of
         case dmChannel of 
             Left _   -> return ()
             Right dm -> void $ tellt dm $ fromStrict $ 
-                            "You have been " <> phrase @action <> " " <> serverName <> rpr  
+                            "You have been " <> phrase @action <> " " <> serverName conf <> rpr  
 
         tellt ctx $ fromStrict (word @action) <> " " <> mention u
         time <- P.embed getCurrentTime
@@ -65,4 +67,4 @@ doAdminAction ctx u reasonM fields toInvoke = case ctx ^. #guild of
                                     : EmbedField "Time" (showtl time) True
                                     : EmbedField "Reason" (fromStrict rna) False
                                     : fields
-        void $ tell @Embed logChannel embed
+        void $ tell @Embed (logChannel conf) embed

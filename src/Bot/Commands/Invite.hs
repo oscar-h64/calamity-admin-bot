@@ -13,6 +13,6 @@ import Polysemy.Reader
 import Bot.Import
 
 invite :: BotC r => CommandContext -> Sem (Reader BotConfig ': r) ()
-invite = do
+invite ctx = do
     link <- inviteLink <$> ask
-    void . flip tellt (fromStrict $ "Invite Link: " <> link)
+    void $ tellt ctx (fromStrict $ "Invite Link: " <> link)

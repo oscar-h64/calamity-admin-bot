@@ -59,6 +59,9 @@ extra-deps:
 
 # Override default flag values for local packages and extra-deps
 # flags: {}
+flags:
+  polysemy:
+    error-messages: false
 
 # Extra package databases containing global packages
 # extra-package-dbs: []

@@ -14,6 +14,7 @@ import           Calamity                                   as Bot.Import
 import qualified Calamity.Commands.Context                  as CC ( Context(..) )
 import           Calamity.Commands.Parser                   ( KleenePlusConcat )
 import           Polysemy                                   as Bot.Import ( Sem(..) )
+import           Polysemy.Reader                            as Bot.Import
 import qualified DiPolysemy                                 as DiP
 import           Data.Maybe                                 as Bot.Import (fromMaybe, maybe, isJust)
 import           Data.Text                                  as Bot.Import ( Text, intercalate )
