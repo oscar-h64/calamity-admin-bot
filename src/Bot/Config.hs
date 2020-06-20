@@ -15,13 +15,7 @@ import Prelude
 import Calamity       ( Token(..), Snowflake(..), Channel, Role )
 
 import Data.Aeson
-import Data.Char      ( isLower, isUpper, toLower )
 import Data.Text      ( Text )
-import Data.Text.Lazy ( fromStrict )
-
-import Text.Casing    ( kebab )
-
-import GHC.Generics   ( Generic )
 
 data BotConfig = BotConfig {
     bcBotSecret :: Token,
