@@ -30,19 +30,7 @@ data BotConfig = BotConfig {
     bcToMuteRoles :: [Snowflake Role],
     bcInviteLink :: Text,
     bcServerName :: Text
-} deriving Generic
-
-jsonOpts :: Options
-jsonOpts = defaultOptions {
-    fieldLabelModifier = toFieldName
 }
-
-toFieldName :: String -> String
-toFieldName = kebab . while isUpper toLower . dropWhile isLower
-    where while _ _ [] = []
-          while p f (x:xs)
-            | p x       = f x : while p f xs
-            | otherwise = x : xs
 
 instance FromJSON BotConfig where
     parseJSON = withObject "BotConfig" $ \v -> BotConfig
