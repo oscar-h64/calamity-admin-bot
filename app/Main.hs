@@ -71,6 +71,9 @@ runBot conf = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetrics
                     command @'[Snowflake User, ActionReason] "kick" kick
 
             -- Event Handlers:
+            -- Message Create:
+            react @'MessageCreateEvt onMessageCreate
+
             -- Message Edit:
             react @'MessageUpdateEvt $ uncurry onMessageEdit
 

@@ -18,7 +18,7 @@ import           Polysemy.Reader                            as Bot.Import
 import qualified Polysemy                                   as P
 import qualified DiPolysemy                                 as DiP
 import           Data.Maybe                                 as Bot.Import (fromMaybe, maybe, isJust)
-import           Data.Text                                  as Bot.Import ( Text, intercalate )
+import           Data.Text                                  as Bot.Import ( Text, intercalate, isInfixOf )
 import qualified Data.Text.Lazy                             as L ( Text )
 import           Data.Text.Lazy                             as Bot.Import (fromStrict, toStrict)
 import           Control.Monad                              as Bot.Import
