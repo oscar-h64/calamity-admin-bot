@@ -7,9 +7,11 @@
 -- Copyright 2020 Oscar Harris (oscar@oscar-h.com)                            --
 --------------------------------------------------------------------------------
 module Bot.Events (
+    onMessageCreate,
     onMessageEdit,
     onMessageDelete
 ) where
 
+import Bot.Events.MessageCreate
 import Bot.Events.MessageEdit
 import Bot.Events.MessageDelete

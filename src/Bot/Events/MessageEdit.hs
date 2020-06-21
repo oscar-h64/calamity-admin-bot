@@ -11,9 +11,10 @@ module Bot.Events.MessageEdit where
 import Data.Default
 import Data.Colour.Names
 
+import Bot.Events.MessageCreate
 import Bot.Import
 
-onMessageEdit :: BotC r => Message -> Message -> Sem (Reader BotConfig ': r) ()
+onMessageEdit :: BotReader r => Message -> Message -> Sem r ()
 onMessageEdit m1 m2 = do
     lc <- bcLogChannel <$> ask
     let origtext = m1 ^. #content
@@ -33,4 +34,6 @@ onMessageEdit m1 m2 = do
                         EmbedField "Edited" edittime True,                      
                         EmbedField "New Text" newtext True
                     ]
-    void $ tell @Embed lc embed
+    tell @Embed lc embed
+
+    onMessageCreate m2

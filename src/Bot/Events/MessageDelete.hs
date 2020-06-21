@@ -13,7 +13,7 @@ import Data.Colour.Names
 
 import Bot.Import
 
-onMessageDelete :: BotC r => Message -> Sem (Reader BotConfig ': r) ()
+onMessageDelete :: BotReader r => Message -> Sem r ()
 onMessageDelete m = do
     lc <- bcLogChannel <$> ask
     let text     = m ^. #content
