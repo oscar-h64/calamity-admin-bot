@@ -18,7 +18,7 @@ This is a discord bot written in Haskell using the [calamity library](https://ha
     - Mute related commands require the user to have one of the listed roles. Kick/ban related commands require the user to have kick or ban permissions respectively
 - Message edits and deletes are logged into a log channel
 - Administrator actions (commands from `kick` onwards) are logged into the log channel, and a suitable reason is provided with the request for Discord's audit log
-- Filtering based on message content (NOT YET COMPLETE)
+- Filtering based on message content
 - Custom activity for the bot (NOT YET COMPLETE)
 - Reaction roles (NOT YET COMPLETE)
 
