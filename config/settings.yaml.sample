@@ -17,3 +17,8 @@ invite-link: https://discord.gg/XXXXXX
 
 # Enter the name of your server here
 server-name: Example Server
+
+# Enter banned fragments (phrases, words or parts of words) here
+banned-fragments:
+- word1
+- word2
