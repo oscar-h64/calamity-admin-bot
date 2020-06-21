@@ -18,12 +18,13 @@ import Data.Aeson
 import Data.Text      ( Text )
 
 data BotConfig = BotConfig {
-    bcBotSecret :: Token,
-    bcLogChannel :: Snowflake Channel,
-    bcMuteRole :: Snowflake Role,
-    bcToMuteRoles :: [Snowflake Role],
-    bcInviteLink :: Text,
-    bcServerName :: Text
+    bcBotSecret       :: Token,
+    bcLogChannel      :: Snowflake Channel,
+    bcMuteRole        :: Snowflake Role,
+    bcToMuteRoles     :: [Snowflake Role],
+    bcInviteLink      :: Text,
+    bcServerName      :: Text,
+    bcBannedFragments :: [Text]
 }
 
 instance FromJSON BotConfig where
@@ -34,3 +35,4 @@ instance FromJSON BotConfig where
                     <*> (map (Snowflake) <$> (v .: "to-mute-roles"))
                     <*> v .: "invite-link"
                     <*> v .: "server-name"
+                    <*> v .: "banned-fragments"
