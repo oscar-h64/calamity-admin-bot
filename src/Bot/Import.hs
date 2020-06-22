@@ -12,7 +12,7 @@ module Bot.Import (
 
 import           Calamity                                   as Bot.Import
 import qualified Calamity.Commands.Context                  as CC ( Context(..) )
-import           Calamity.Commands.Parser                   ( KleenePlusConcat )
+import           Calamity.Commands.Parser                    ( KleenePlusConcat )
 import           Polysemy                                   as Bot.Import ( Sem(..) )
 import           Polysemy.Reader                            as Bot.Import
 import qualified Polysemy                                   as P
