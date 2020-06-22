@@ -32,6 +32,9 @@ mute ctx user reason = do
     doAdminAction @Mute ctx user reason [] $
         \g _ -> AddGuildMemberRole g user mr
 
+tempmute :: BotReader r => CommandContext -> Snowflake User -> Text -> Maybe Text -> Sem r ()
+tempmute = undefined
+
 unmute :: BotReader r => CommandContext -> Snowflake User -> Maybe Text -> Sem r ()
 unmute ctx user reason = do
     mr <- bcMuteRole <$> ask
