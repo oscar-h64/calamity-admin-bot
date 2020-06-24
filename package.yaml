@@ -35,6 +35,7 @@ dependencies:
 - aeson
 - yaml
 - casing
+- suffix-time-reader
 
 default-extensions:
 - OverloadedStrings
