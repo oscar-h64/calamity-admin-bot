@@ -12,9 +12,10 @@ module Bot.Config (
 
 import Prelude
 
-import Calamity       ( Token(..), Snowflake(..), Channel, Role )
+import Calamity       ( ActivityType,  Token(..), Snowflake(..), Channel, Role )
 
 import Data.Aeson
+import Data.Maybe     ( fromMaybe )
 import Data.Text      ( Text )
 
 data BotConfig = BotConfig {
@@ -24,8 +25,16 @@ data BotConfig = BotConfig {
     bcToMuteRoles     :: [Snowflake Role],
     bcInviteLink      :: Text,
     bcServerName      :: Text,
-    bcBannedFragments :: [Text]
+    bcBannedFragments :: [Text],
+    bcActivity        :: Maybe BotActivity
 }
+
+data BotActivity = BotActivity ActivityType Text
+
+instance FromJSON BotActivity where
+    parseJSON = withObject "BotActivity" $ \v -> BotActivity
+                    <$> v .: "type"
+                    <*> v .: "text"
 
 instance FromJSON BotConfig where
     parseJSON = withObject "BotConfig" $ \v -> BotConfig
@@ -35,4 +44,5 @@ instance FromJSON BotConfig where
                     <*> (map (Snowflake) <$> (v .: "to-mute-roles"))
                     <*> v .: "invite-link"
                     <*> v .: "server-name"
-                    <*> v .: "banned-fragments"
+                    <*> (fromMaybe [] <$> v .:? "banned-fragments")
+                    <*> v .:? "activity"
