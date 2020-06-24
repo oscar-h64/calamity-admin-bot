@@ -12,11 +12,12 @@ module Bot.Config (
 
 import Prelude
 
-import Calamity       ( ActivityType,  Token(..), Snowflake(..), Channel, Role )
+import Calamity       ( activity, Activity,  ActivityType,  Token(..), Snowflake(..), Channel, Role )
 
 import Data.Aeson
 import Data.Maybe     ( fromMaybe )
 import Data.Text      ( Text )
+import Data.Text.Lazy ( fromStrict )
 
 data BotConfig = BotConfig {
     bcBotSecret       :: Token,
@@ -26,7 +27,7 @@ data BotConfig = BotConfig {
     bcInviteLink      :: Text,
     bcServerName      :: Text,
     bcBannedFragments :: [Text],
-    bcActivity        :: Maybe BotActivity
+    bcActivity        :: Maybe Activity
 }
 
 data BotActivity = BotActivity ActivityType Text
@@ -45,4 +46,6 @@ instance FromJSON BotConfig where
                     <*> v .: "invite-link"
                     <*> v .: "server-name"
                     <*> (fromMaybe [] <$> v .:? "banned-fragments")
-                    <*> v .:? "activity"
+                    <*> (fmap makeActivity <$> v .:? "activity")
+        where
+            makeActivity (BotActivity atype atext) = activity (fromStrict atext) atype
