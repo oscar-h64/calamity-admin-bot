@@ -23,3 +23,15 @@ server-name: Example Server
 banned-fragments:
 - word1
 - word2
+
+# Enter the details for the bot activity here. If you do not want an activity 
+# then delete this block
+activity:
+  # The type determines the prefix discord adds:
+  # - Game:      "Playing"
+  # - Streaming: "Streaming"
+  # - Listening: "Listening"
+  # - Custom:    No prefix
+  type: Game
+  # Activity text 
+  text: a game
