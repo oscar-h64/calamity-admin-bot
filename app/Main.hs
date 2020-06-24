@@ -50,6 +50,10 @@ runBot conf = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetrics
                 muteCheck (bcToMuteRoles conf) <$> help (const "Mutes the given user for the given reason") $
                     command @'[Snowflake User, ActionReason] "mute" Bot.Commands.mute
 
+                -- User Tempmute
+                muteCheck (bcToMuteRoles conf) <$> help (const "Mutes the given user for the given time for the given reason") $
+                    command @'[Snowflake User, Text, ActionReason] "tempmute" tempmute
+
                 -- User Unmute
                 muteCheck (bcToMuteRoles conf) $ help (const "Unmutes the given user for the given reason") $
                     command @'[Snowflake User, ActionReason] "unmute" unmute

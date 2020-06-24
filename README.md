@@ -10,7 +10,7 @@ This is a discord bot written in Haskell using the [calamity library](https://ha
     - `!kick :u :r`: Kicks the user `u`, optionally with the reason `r`
     - `!mute :u :r`: Mutes the user `u`, optionally with the reason `r` (by giving user a `Muted` role)
     - `!unmute :u :r`: Unmutes the user `u`, optionally with the reason `r`
-    - `!tempmute :u :t :r`: Mutes the user `u` for `t` time optionall with reason `r` (NOT YET COMPLETE)
+    - `!tempmute :u :t :r`: Mutes the user `u` for `t` time optionally with reason `r`. The time is of the format `10m` or `7d`. Acceptable suffixes are `s`, `m`, `h`, and `d`.
     - `!ban :u :r`: Bans the user `u` optionally with reason `r`
     - `!unban :u :r`: Unbans the user `u`, optionally with reason `r`
     - `!bulkban :u1 :u2 ... :un :r`: Bans all the given users, optionally with reason `r`. Accepts any number of users

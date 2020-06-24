@@ -22,9 +22,11 @@ import qualified Polysemy as P
 import           Bot.Import
 
 class AdminLoggable a where
-    colour :: AdminLoggable a => Colour Double
-    word :: AdminLoggable a => Text
-    phrase :: AdminLoggable a => Text
+    colour :: Colour Double
+    word :: Text
+    phrase :: Text
+    tellContext :: Bool
+    tellContext = True
 
 type ToInvoke = Guild -> Maybe Text -> GuildRequest ()
 
@@ -58,7 +60,10 @@ doAdminAction ctx u reasonM fields toInvoke = case ctx ^. #guild of
             Right dm -> void $ tellt dm $ fromStrict $ 
                             "You have been " <> phrase @action <> " " <> bcServerName conf <> rpr  
 
-        tellt ctx $ fromStrict (word @action) <> " " <> mention u
+        if tellContext @action then
+            void $ tellt ctx $ fromStrict (word @action) <> " " <> mention u
+        else 
+            pure ()
         time <- P.embed getCurrentTime
         let embed = def & #title ?~ fromStrict ("User " <> word @action) 
                         & #color ?~ colour @action
