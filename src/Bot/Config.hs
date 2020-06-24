@@ -12,7 +12,7 @@ module Bot.Config (
 
 import Prelude
 
-import Calamity       ( activity, Activity,  ActivityType,  Token(..), Snowflake(..), Channel, Role )
+import Calamity       ( activity, Activity, Token(..), Snowflake(..), Channel, Role )
 
 import Data.Aeson
 import Data.Maybe     ( fromMaybe )
@@ -60,3 +60,4 @@ instance FromJSON BotConfig where
                     <*> (fmap makeActivity <$> v .:? "activity")
         where
             makeActivity (BotActivity atype atext) = activity (fromStrict atext) (toEnum $ fromEnum atype)
+            

@@ -17,3 +17,4 @@ onReady :: BotReader r => ReadyData -> Sem r ()
 onReady _ = do
     maybeAct <- bcActivity <$> ask
     sendPresence $ StatusUpdateData Nothing maybeAct "" False
+    
