@@ -57,9 +57,6 @@ mute ctx user reason = do
     doAdminAction @Mute ctx user reason [] $
         \g _ -> AddGuildMemberRole g user mr
 
-calcTime :: Text -> NominalDiffTime
-calcTime = undefined
-
 tempmute :: BotReader r => CommandContext -> Snowflake User -> Text -> Maybe Text -> Sem r ()
 tempmute ctx user length reason = do
     case readSuffixTime (unpack length) of
