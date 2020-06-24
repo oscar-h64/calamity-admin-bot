@@ -28,6 +28,7 @@ import           Bot.Commands.Admin
 data Mute
 data Tempmute
 data Unmute
+data Untempmute
 
 instance AdminLoggable Mute where
     colour = khaki
@@ -43,6 +44,12 @@ instance AdminLoggable Unmute where
     colour = palevioletred
     word = "Unmuted"
     phrase = "unmuted in"
+
+instance AdminLoggable Untempmute where
+    colour = palevioletred
+    word = "Unmuted"
+    phrase = "unmuted in"
+    tellContext = False
 
 mute :: BotReader r => CommandContext -> Snowflake User -> Maybe Text -> Sem r ()
 mute ctx user reason = do
@@ -77,15 +84,19 @@ tempmute ctx user length reason = do
             -- Wait for x time
             P.embed $ threadDelay $ truncate $ toRational $ 1000000 * nominalDiffTimeToSeconds lenTime
 
-            -- TODO: This shouldn't respond to context - could field to AdminLoggable to 
-            --       determine if it replied to ctx (default to true)
             -- Unmute user
-            unmute ctx user $ Just "Temporary Mute Ended"
+            doUnmute @Untempmute ctx user $ Just "Temporary Mute Ended"
 
-unmute :: BotReader r => CommandContext -> Snowflake User -> Maybe Text -> Sem r ()
-unmute ctx user reason = do
+doUnmute :: forall action r 
+        . (AdminLoggable action, BotReader r) 
+       => CommandContext 
+       -> Snowflake User 
+       -> Maybe Text 
+       -> Sem r ()
+doUnmute ctx user reason = do
     mr <- bcMuteRole <$> ask
-    doAdminAction @Unmute ctx user reason [] $
+    doAdminAction @action ctx user reason [] $
         \g _ -> RemoveGuildMemberRole g user mr
 
--- TODO: Tempmute - call unmute with reason ["Temporary mute ended"]
+unmute :: BotReader r => CommandContext -> Snowflake User -> Maybe Text -> Sem r ()
+unmute = doUnmute @Unmute
