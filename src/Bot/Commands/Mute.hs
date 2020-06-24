@@ -16,6 +16,8 @@ import           Control.Concurrent      ( threadDelay )
 
 import           Data.Colour.Names       ( khaki, palevioletred )
 import           Data.Time.Clock 
+import           Data.Time.SuffixRead    ( readSuffixTime )
+import           Data.Text               ( unpack )
 import           Data.Text.Lazy          ( pack )
 
 import qualified Polysemy           as P ( embed )
@@ -53,31 +55,32 @@ calcTime = undefined
 
 tempmute :: BotReader r => CommandContext -> Snowflake User -> Text -> Maybe Text -> Sem r ()
 tempmute ctx user length reason = do
-    -- TODO: Should check if time is valid first before muting
-    let lenTime = calcTime length
-    currentTime <- P.embed getCurrentTime
-    mr <- bcMuteRole <$> ask
-    
-    -- Mute User
-    doAdminAction 
-        @Tempmute 
-        ctx 
-        user 
-        reason 
-        [
-            EmbedField "Start Time" (showtl currentTime) True,
-            EmbedField "Length" (pack $ show lenTime) True,
-            EmbedField "End Time" (showtl $ addUTCTime lenTime currentTime) True
-        ]
-        $ \g _ -> AddGuildMemberRole g user mr
-    
-    -- Wait for x time
-    P.embed $ threadDelay $ truncate $ toRational $ 1000000 * nominalDiffTimeToSeconds lenTime
+    case readSuffixTime (unpack length) of
+        Nothing -> void $ tell ctx $ "Invalid Time: " <> length
+        Just lenTime -> do
+            currentTime <- P.embed getCurrentTime
+            mr <- bcMuteRole <$> ask
+            
+            -- Mute User
+            doAdminAction 
+                @Tempmute 
+                ctx 
+                user 
+                reason 
+                [
+                    EmbedField "Start Time" (showtl currentTime) True,
+                    EmbedField "Length" (pack $ show lenTime) True,
+                    EmbedField "End Time" (showtl $ addUTCTime lenTime currentTime) True
+                ]
+                $ \g _ -> AddGuildMemberRole g user mr
+            
+            -- Wait for x time
+            P.embed $ threadDelay $ truncate $ toRational $ 1000000 * nominalDiffTimeToSeconds lenTime
 
-    -- TODO: This shouldn't respond to context - could field to AdminLoggable to 
-    --       determine if it replied to ctx (default to true)
-    -- Unmute user
-    unmute ctx user $ Just "Temporary Mute Ended"
+            -- TODO: This shouldn't respond to context - could field to AdminLoggable to 
+            --       determine if it replied to ctx (default to true)
+            -- Unmute user
+            unmute ctx user $ Just "Temporary Mute Ended"
 
 unmute :: BotReader r => CommandContext -> Snowflake User -> Maybe Text -> Sem r ()
 unmute ctx user reason = do
