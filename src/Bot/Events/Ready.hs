@@ -16,6 +16,4 @@ import Bot.Import
 onReady :: BotReader r => ReadyData -> Sem r ()
 onReady _ = do
     maybeAct <- bcActivity <$> ask
-    case maybeAct of
-                Nothing -> pure ()
-                Just a  -> sendPresence $ StatusUpdateData Nothing (Just a) "" False
+    sendPresence $ StatusUpdateData Nothing maybeAct "" False

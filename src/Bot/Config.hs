@@ -34,7 +34,11 @@ data BotConfig = BotConfig {
 
 data BotActivity = BotActivity ActTypeProxy Text
 
-data ActTypeProxy = Game | Streaming | Listening | Custom
+-- FromJSON type for ActivityType is numbers. This gives them 
+-- appropriate names. Note unused is there because the streaming 
+-- option says playing and says live on twitch. Since there is
+-- no ability to add links with the bot this would be stupid
+data ActTypeProxy = Playing | Unused | Listening | Watching
     deriving (Show, Read, Enum, Generic)
 
 instance FromJSON ActTypeProxy

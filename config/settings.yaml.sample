@@ -27,11 +27,10 @@ banned-fragments:
 # Enter the details for the bot activity here. If you do not want an activity 
 # then delete this block
 activity:
-  # The type determines the prefix discord adds:
-  # - Game:      "Playing"
-  # - Streaming: "Streaming"
-  # - Listening: "Listening"
-  # - Custom:    No prefix
-  type: Game
+  # The type determines the prefix discord adds. Available options:
+  # - Playing
+  # - Listening
+  # - Watching
+  type: Playing
   # Activity text 
   text: a game
