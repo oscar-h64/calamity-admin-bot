@@ -6,14 +6,16 @@
 --                                                                            --
 -- Copyright 2020 Oscar Harris (oscar@oscar-h.com)                            --
 --------------------------------------------------------------------------------
-module Bot.Events (
-    onReady,
-    onMessageCreate,
-    onMessageEdit,
-    onMessageDelete
-) where
+module Bot.Events.Ready ( onReady ) where
 
-import Bot.Events.Ready
-import Bot.Events.MessageCreate
-import Bot.Events.MessageEdit
-import Bot.Events.MessageDelete
+import Calamity.Gateway                ( StatusUpdateData(..) )
+import Calamity.Gateway.DispatchEvents ( ReadyData )
+
+import Bot.Import
+
+onReady :: BotReader r => ReadyData -> Sem r ()
+onReady _ = do
+    maybeAct <- bcActivity <$> ask
+    case maybeAct of
+                Nothing -> pure ()
+                Just a  -> sendPresence $ StatusUpdateData Nothing (Just a) "" False

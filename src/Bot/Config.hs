@@ -19,6 +19,8 @@ import Data.Maybe     ( fromMaybe )
 import Data.Text      ( Text )
 import Data.Text.Lazy ( fromStrict )
 
+import GHC.Generics
+
 data BotConfig = BotConfig {
     bcBotSecret       :: Token,
     bcLogChannel      :: Snowflake Channel,
@@ -30,7 +32,12 @@ data BotConfig = BotConfig {
     bcActivity        :: Maybe Activity
 }
 
-data BotActivity = BotActivity ActivityType Text
+data BotActivity = BotActivity ActTypeProxy Text
+
+data ActTypeProxy = Game | Streaming | Listening | Custom
+    deriving (Show, Read, Enum, Generic)
+
+instance FromJSON ActTypeProxy
 
 instance FromJSON BotActivity where
     parseJSON = withObject "BotActivity" $ \v -> BotActivity
@@ -48,4 +55,4 @@ instance FromJSON BotConfig where
                     <*> (fromMaybe [] <$> v .:? "banned-fragments")
                     <*> (fmap makeActivity <$> v .:? "activity")
         where
-            makeActivity (BotActivity atype atext) = activity (fromStrict atext) atype
+            makeActivity (BotActivity atype atext) = activity (fromStrict atext) (toEnum $ fromEnum atype)
