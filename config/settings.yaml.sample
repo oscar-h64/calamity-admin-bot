@@ -13,7 +13,7 @@ to-mute-roles:
 - 000000000000000001
 
 # Enter the server invite link here
-invite-link: https://discord.gg/XXXXXX
+invite-link: https://discord.gg/XXXXXXX
 
 # Enter the name of your server here
 server-name: Example Server
@@ -34,3 +34,19 @@ activity:
   type: Playing
   # Activity text 
   text: a game
+
+react-roles:
+- message-method: bot # or manual
+  message-id: 000000000000000000 # only if type is manual
+  set-description: Courses # only if type is bot
+  only-one: false # can only select 1 role from list
+  roles:
+  - 000000000000000000:
+      description: Role 1 # should be excluded if type manual?
+      icon: emoji1
+  - 000000000000000001:
+      description: Role 2
+      icon: emoji2
+- role-set:
+
+
