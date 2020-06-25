@@ -12,10 +12,14 @@ module Bot.Config (
 
 import Prelude
 
-import Calamity       ( Token(..), Snowflake(..), Channel, Role )
+import Calamity       ( activity, Activity, Token(..), Snowflake(..), Channel, Role )
 
 import Data.Aeson
+import Data.Maybe     ( fromMaybe )
 import Data.Text      ( Text )
+import Data.Text.Lazy ( fromStrict )
+
+import GHC.Generics
 
 data BotConfig = BotConfig {
     bcBotSecret       :: Token,
@@ -24,8 +28,25 @@ data BotConfig = BotConfig {
     bcToMuteRoles     :: [Snowflake Role],
     bcInviteLink      :: Text,
     bcServerName      :: Text,
-    bcBannedFragments :: [Text]
+    bcBannedFragments :: [Text],
+    bcActivity        :: Maybe Activity
 }
+
+data BotActivity = BotActivity ActTypeProxy Text
+
+-- FromJSON type for ActivityType is numbers. This gives them 
+-- appropriate names. Note unused is there because the streaming 
+-- option says playing and says live on twitch. Since there is
+-- no ability to add links with the bot this would be stupid
+data ActTypeProxy = Playing | Unused | Listening | Watching
+    deriving (Show, Read, Enum, Generic)
+
+instance FromJSON ActTypeProxy
+
+instance FromJSON BotActivity where
+    parseJSON = withObject "BotActivity" $ \v -> BotActivity
+                    <$> v .: "type"
+                    <*> v .: "text"
 
 instance FromJSON BotConfig where
     parseJSON = withObject "BotConfig" $ \v -> BotConfig
@@ -35,4 +56,8 @@ instance FromJSON BotConfig where
                     <*> (map (Snowflake) <$> (v .: "to-mute-roles"))
                     <*> v .: "invite-link"
                     <*> v .: "server-name"
-                    <*> v .: "banned-fragments"
+                    <*> (fromMaybe [] <$> v .:? "banned-fragments")
+                    <*> (fmap makeActivity <$> v .:? "activity")
+        where
+            makeActivity (BotActivity atype atext) = activity (fromStrict atext) (toEnum $ fromEnum atype)
+            

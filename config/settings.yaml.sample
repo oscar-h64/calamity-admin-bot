@@ -19,7 +19,18 @@ invite-link: https://discord.gg/XXXXXX
 server-name: Example Server
 
 # Enter banned fragments (phrases, words or parts of words) here. To disable
-# content filtering replace these 3 lines with "banned-fragments: []"
+# content filtering delete this block
 banned-fragments:
 - word1
 - word2
+
+# Enter the details for the bot activity here. If you do not want an activity 
+# then delete this block
+activity:
+  # The type determines the prefix discord adds. Available options:
+  # - Playing
+  # - Listening
+  # - Watching
+  type: Playing
+  # Activity text 
+  text: a game

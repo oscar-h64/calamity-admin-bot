@@ -19,7 +19,7 @@ This is a discord bot written in Haskell using the [calamity library](https://ha
 - Message edits and deletes are logged into a log channel
 - Administrator actions (commands from `kick` onwards) are logged into the log channel, and a suitable reason is provided with the request for Discord's audit log
 - Filtering based on message content
-- Custom activity for the bot (NOT YET COMPLETE)
+- Custom activity for the bot
 - Reaction roles (NOT YET COMPLETE)
 
 See [here](https://github.com/oscar-h64/calamity-admin-bot/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement) for a list of features planned. If there is a feature you would like feel free to open an issue (or a pull request!) with the label `enhancement` 
