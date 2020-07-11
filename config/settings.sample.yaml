@@ -69,16 +69,16 @@ react-roles-auto:
 # on a specific existing message). If you do not want to use this feature 
 # delete this block
 react-roles-manual:
-- 000000000000000000: # message ID of message to watch
+  000000000000000000: # message ID of message to watch
     # whether members can select more than 1 role
     only-one: false
     # roles that can be assigned on this message. Use the emoji name as the
     # key and the role ID as the value
     roles:
-    - emoji1: 000000000000000000
-    - emoji2: 000000000000000001
-- 000000000000000001: # message ID of message to watch
+      emoji1: 000000000000000000
+      emoji2: 000000000000000001
+  000000000000000001: # message ID of message to watch
     only-one: true
     roles:
-    - emoji1: 000000000000000000
-    - emoji3: 000000000000000001
+      emoji1: 000000000000000000
+      emoji3: 000000000000000001

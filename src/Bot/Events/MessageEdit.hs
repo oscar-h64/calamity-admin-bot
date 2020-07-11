@@ -8,8 +8,8 @@
 --------------------------------------------------------------------------------
 module Bot.Events.MessageEdit where
 
-import Data.Default
 import Data.Colour.Names
+import Data.Default
 
 import Bot.Events.MessageCreate
 import Bot.Import
@@ -23,7 +23,7 @@ onMessageEdit m1 m2 = do
         channel  = m2 ^. #channelID
         origtime = showtl $ m2 ^. #timestamp
         edittime = fromMaybe "ERROR" $ showtl <$> m2 ^. #editedTimestamp
-        embed = def & #title ?~ "Message Edited" 
+        embed = def & #title ?~ "Message Edited"
                     & #color ?~ mediumaquamarine
                     & #fields .~ [
                         EmbedField "Author" (mention author) True,
@@ -31,7 +31,7 @@ onMessageEdit m1 m2 = do
                         EmbedField "Old Text" origtext True,
 
                         EmbedField "Channel" (mention channel) True,
-                        EmbedField "Edited" edittime True,                      
+                        EmbedField "Edited" edittime True,
                         EmbedField "New Text" newtext True
                     ]
     tell @Embed lc embed

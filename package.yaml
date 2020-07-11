@@ -36,6 +36,8 @@ dependencies:
 - yaml
 - casing
 - suffix-time-reader
+- containers
+- unordered-containers
 
 default-extensions:
 - OverloadedStrings

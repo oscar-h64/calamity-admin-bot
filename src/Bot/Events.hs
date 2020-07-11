@@ -13,7 +13,7 @@ module Bot.Events (
     onMessageDelete
 ) where
 
-import Bot.Events.Ready
 import Bot.Events.MessageCreate
-import Bot.Events.MessageEdit
 import Bot.Events.MessageDelete
+import Bot.Events.MessageEdit
+import Bot.Events.Ready

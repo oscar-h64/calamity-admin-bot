@@ -8,10 +8,10 @@
 --------------------------------------------------------------------------------
 module Bot.Events.MessageCreate where
 
-import qualified Calamity.HTTP.Reason as CR ( reason ) 
+import qualified Calamity.HTTP.Reason as CR ( reason )
 
-import           Data.Colour.Names          ( cornflowerblue )
-import           Data.Default               ( def )
+import           Data.Colour.Names    ( cornflowerblue )
+import           Data.Default         ( def )
 
 import           Bot.Import
 
@@ -34,7 +34,7 @@ onMessageCreate m = do
                                 EmbedField "Sent" origtime True,
                                 EmbedField "Content" ltext False
                         ]
-                        
+
         lc <- bcLogChannel <$> ask
         tell @Embed lc embed
 

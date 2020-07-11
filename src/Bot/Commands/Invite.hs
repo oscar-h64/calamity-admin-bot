@@ -11,7 +11,7 @@ module Bot.Commands.Invite where
 import qualified Polysemy        as P
 import qualified Polysemy.Reader as P
 
-import Bot.Import
+import           Bot.Import
 
 invite :: BotReader r => CommandContext -> Sem r ()
 invite ctx = do

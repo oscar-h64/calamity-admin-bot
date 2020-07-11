@@ -8,7 +8,7 @@
 --------------------------------------------------------------------------------
 module Bot.Commands.Ban where
 
-import Data.Colour.Names ( springgreen, mediumpurple )
+import Data.Colour.Names  ( mediumpurple, springgreen )
 
 import Bot.Commands.Admin
 import Bot.Import
@@ -27,13 +27,13 @@ instance AdminLoggable Unban where
     phrase = "unbanned from"
 
 ban :: BotReader r => CommandContext -> Snowflake User -> Maybe Text -> Sem r ()
-ban ctx user reason = 
-    doAdminAction @Ban ctx user reason [] $ 
+ban ctx user reason =
+    doAdminAction @Ban ctx user reason [] $
         \g r -> CreateGuildBan g user $ CreateGuildBanData Nothing r
 
 unban :: BotReader r => CommandContext -> Snowflake User -> Maybe Text -> Sem r ()
-unban ctx user reason = 
-    doAdminAction @Unban ctx user reason [] $ 
+unban ctx user reason =
+    doAdminAction @Unban ctx user reason [] $
         \g _ -> RemoveGuildBan g user
 
 bulkban :: BotReader r => CommandContext -> [Snowflake User] -> Maybe Text -> Sem r ()

@@ -11,13 +11,13 @@ module Bot.Commands.Admin (
     doAdminAction
 ) where
 
-import qualified Calamity.HTTP.Reason as CR (reason) 
+import qualified Calamity.HTTP.Reason as CR ( reason )
 
-import           Data.Colour (Colour)
+import           Data.Colour          ( Colour )
 import           Data.Default
-import           Data.Time.Clock ( getCurrentTime )
+import           Data.Time.Clock      ( getCurrentTime )
 
-import qualified Polysemy as P
+import qualified Polysemy             as P
 
 import           Bot.Import
 
@@ -31,17 +31,17 @@ class AdminLoggable a where
 type ToInvoke = Guild -> Maybe Text -> GuildRequest ()
 
 doAdminAction :: forall action r u
-               . (AdminLoggable action, BotReader r, Mentionable u, HasID User u) 
-              => CommandContext 
+               . (AdminLoggable action, BotReader r, Mentionable u, HasID User u)
+              => CommandContext
               -> u
               -> Maybe Text
               -> [EmbedField]
-              -> ToInvoke 
+              -> ToInvoke
               -> Sem r ()
 doAdminAction ctx u reasonM fields toInvoke = case ctx ^. #guild of
     Nothing -> void $ tellt ctx "Administrator actions must be performed in a guild"
     Just g -> do
-        let 
+        let
             admin = ctx ^. #user
             -- Blank if no reason, otherwise reason
             rna = fromMaybe "N/A" reasonM
@@ -54,18 +54,18 @@ doAdminAction ctx u reasonM fields toInvoke = case ctx ^. #guild of
 
         invoke $ CR.reason rr $ toInvoke g reasonM
         dmChannel <- invoke $ CreateDM u
-        
-        case dmChannel of 
+
+        case dmChannel of
             Left _   -> return ()
-            Right dm -> void $ tellt dm $ fromStrict $ 
-                            "You have been " <> phrase @action <> " " <> bcServerName conf <> rpr  
+            Right dm -> void $ tellt dm $ fromStrict $
+                            "You have been " <> phrase @action <> " " <> bcServerName conf <> rpr
 
         if tellContext @action then
             void $ tellt ctx $ fromStrict (word @action) <> " " <> mention u
-        else 
+        else
             pure ()
         time <- P.embed getCurrentTime
-        let embed = def & #title ?~ fromStrict ("User " <> word @action) 
+        let embed = def & #title ?~ fromStrict ("User " <> word @action)
                         & #color ?~ colour @action
                         & #fields .~  EmbedField "User" (mention u) True
                                     : EmbedField "Admin" (mention admin) True

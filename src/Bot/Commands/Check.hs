@@ -12,8 +12,8 @@ module Bot.Commands.Check (
     banCheck
 ) where
 
-import           Calamity.Commands.Dsl      ( DSLState, requiresPure )
-import           Data.Flags                 ( (.*.) )
+import           Calamity.Commands.Dsl ( DSLState, requiresPure )
+import           Data.Flags            ( (.*.) )
 import qualified Data.Text.Lazy        as L ( Text )
 import qualified Data.Vector.Unboxed   as V ( elem )
 
@@ -36,7 +36,7 @@ testRoles roles ctx = do
     else
         Just "You do not have permission to do that"
 
-muteCheck :: [Snowflake Role] -> Sem (DSLState r) a -> Sem (DSLState r) a 
+muteCheck :: [Snowflake Role] -> Sem (DSLState r) a -> Sem (DSLState r) a
 muteCheck rs = requiresPure [("Mute Permission Check", testRoles rs)]
 
 kickCheck :: Sem (DSLState r) a -> Sem (DSLState r) a

@@ -10,16 +10,26 @@ module Bot.Config (
     BotConfig(..)
 ) where
 
-import Prelude
+import           Prelude
 
-import Calamity       ( activity, Activity, Token(..), Snowflake(..), Channel, Role )
+import           Calamity            ( Activity, Channel, Message, Role,
+                                       Snowflake (..), Token (..), activity )
 
-import Data.Aeson
-import Data.Maybe     ( fromMaybe )
-import Data.Text      ( Text )
-import Data.Text.Lazy ( fromStrict )
+import           Data.Aeson
+import qualified Data.HashMap.Strict as HMS
+import qualified Data.Map            as M
+import           Data.Maybe          ( fromMaybe )
+import           Data.Text           ( Text )
+import           Data.Text.Lazy      ( fromStrict )
 
-import GHC.Generics
+import           GHC.Generics
+
+data ReactRoleList = ReactRoleList {
+    rrlOnlyOne :: Bool,
+    rrlRoles   :: HMS.HashMap Text (Snowflake Role)
+}
+
+type ReactRoleWatchlist = M.Map (Snowflake Message) ReactRoleList
 
 data BotConfig = BotConfig {
     bcBotSecret       :: Token,
@@ -29,13 +39,18 @@ data BotConfig = BotConfig {
     bcInviteLink      :: Text,
     bcServerName      :: Text,
     bcBannedFragments :: [Text],
-    bcActivity        :: Maybe Activity
+    bcActivity        :: Maybe Activity,
+    bcReactRolesAuto  :: Maybe (), -- create messages before starting reader - update watchlist
+    bcReactRolesWatch :: Maybe ReactRoleWatchlist
 }
 
 data BotActivity = BotActivity ActTypeProxy Text
 
--- FromJSON type for ActivityType is numbers. This gives them 
--- appropriate names. Note unused is there because the streaming 
+-- IDs are converted to snowflake after reading rather than reading `Snowflake a`
+-- directly as it removes the requirement to put quotes around IDs
+
+-- FromJSON type for ActivityType is numbers. This gives them
+-- appropriate names. Note unused is there because the streaming
 -- option says playing and says live on twitch. Since there is
 -- no ability to add links with the bot this would be stupid
 data ActTypeProxy = Playing | Unused | Listening | Watching
@@ -58,6 +73,13 @@ instance FromJSON BotConfig where
                     <*> v .: "server-name"
                     <*> (fromMaybe [] <$> v .:? "banned-fragments")
                     <*> (fmap makeActivity <$> v .:? "activity")
+                    <*> pure Nothing
+                    <*> (fmap (M.mapKeys Snowflake) <$> v .:? "react-roles-manual")
         where
-            makeActivity (BotActivity atype atext) = activity (fromStrict atext) (toEnum $ fromEnum atype)
-            
+            makeActivity (BotActivity atype atext) = activity (fromStrict atext)
+                $ toEnum $ fromEnum atype
+
+instance FromJSON ReactRoleList where
+    parseJSON = withObject "ReactRoleList" $ \v -> ReactRoleList
+                    <$> v .: "only-one"
+                    <*> (HMS.map Snowflake <$> v .: "roles")

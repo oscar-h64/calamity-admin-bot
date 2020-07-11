@@ -8,8 +8,8 @@
 --------------------------------------------------------------------------------
 module Bot.Events.MessageDelete where
 
-import Data.Default
 import Data.Colour.Names
+import Data.Default
 
 import Bot.Import
 
@@ -20,7 +20,7 @@ onMessageDelete m = do
         author   = m ^. #author
         channel  = m ^. #channelID
         origtime = showtl $ m ^. #timestamp
-        embed = def & #title ?~ "Message Deleted" 
+        embed = def & #title ?~ "Message Deleted"
                     & #color ?~ tomato
                     & #fields .~ [
                         EmbedField "Channel" (mention channel) True,

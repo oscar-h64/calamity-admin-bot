@@ -8,10 +8,10 @@
 --------------------------------------------------------------------------------
 module Bot.Commands.Kick where
 
-import Data.Colour.Names ( darkmagenta )
+import Data.Colour.Names  ( darkmagenta )
 
-import Bot.Import
 import Bot.Commands.Admin
+import Bot.Import
 
 data Kick
 
@@ -21,6 +21,6 @@ instance AdminLoggable Kick where
     phrase = "kicked from"
 
 kick :: BotReader r => CommandContext -> Snowflake User -> Maybe Text -> Sem r ()
-kick ctx user reason = 
+kick ctx user reason =
     doAdminAction @Kick ctx user reason [] $
         \g _ -> RemoveGuildMember g user
