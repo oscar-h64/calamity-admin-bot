@@ -6,9 +6,12 @@
 --                                                                            --
 -- Copyright 2020 Oscar Harris (oscar@oscar-h.com)                            --
 --------------------------------------------------------------------------------
+
 module Bot.Config (
     BotConfig(..)
 ) where
+
+--------------------------------------------------------------------------------
 
 import           Prelude
 
@@ -24,13 +27,26 @@ import           Data.Text.Lazy      ( fromStrict )
 
 import           GHC.Generics
 
+--------------------------------------------------------------------------------
+
+-- | Represents the roles for a particular react role message. This defines
+-- whether to allow more than 1 role, and which reactions map to which roles
 data ReactRoleList = ReactRoleList {
     rrlOnlyOne :: Bool,
     rrlRoles   :: HMS.HashMap Text (Snowflake Role)
 }
 
+instance FromJSON ReactRoleList where
+    parseJSON = withObject "ReactRoleList" $ \v -> ReactRoleList
+                    <$> v .: "only-one"
+                    <*> (HMS.map Snowflake <$> v .: "roles")
+
+
+-- | Map of message IDs to role list value
 type ReactRoleWatchlist = M.Map (Snowflake Message) ReactRoleList
 
+
+-- | The configuration for the bot loaded from the config file
 data BotConfig = BotConfig {
     bcBotSecret       :: Token,
     bcLogChannel      :: Snowflake Channel,
@@ -43,25 +59,6 @@ data BotConfig = BotConfig {
     bcReactRolesAuto  :: Maybe (), -- create messages before starting reader - update watchlist
     bcReactRolesWatch :: Maybe ReactRoleWatchlist
 }
-
-data BotActivity = BotActivity ActTypeProxy Text
-
--- IDs are converted to snowflake after reading rather than reading `Snowflake a`
--- directly as it removes the requirement to put quotes around IDs
-
--- FromJSON type for ActivityType is numbers. This gives them
--- appropriate names. Note unused is there because the streaming
--- option says playing and says live on twitch. Since there is
--- no ability to add links with the bot this would be stupid
-data ActTypeProxy = Playing | Unused | Listening | Watching
-    deriving (Show, Read, Enum, Generic)
-
-instance FromJSON ActTypeProxy
-
-instance FromJSON BotActivity where
-    parseJSON = withObject "BotActivity" $ \v -> BotActivity
-                    <$> v .: "type"
-                    <*> v .: "text"
 
 instance FromJSON BotConfig where
     parseJSON = withObject "BotConfig" $ \v -> BotConfig
@@ -79,7 +76,24 @@ instance FromJSON BotConfig where
             makeActivity (BotActivity atype atext) = activity (fromStrict atext)
                 $ toEnum $ fromEnum atype
 
-instance FromJSON ReactRoleList where
-    parseJSON = withObject "ReactRoleList" $ \v -> ReactRoleList
-                    <$> v .: "only-one"
-                    <*> (HMS.map Snowflake <$> v .: "roles")
+
+-- IDs are converted to snowflake after reading rather than reading `Snowflake a`
+-- directly as it removes the requirement to put quotes around IDs
+
+-- FromJSON type for ActivityType is numbers. This gives them
+-- appropriate names. Note unused is there because the streaming
+-- option says playing and says live on twitch. Since there is
+-- no ability to add links with the bot this would be stupid
+data ActTypeProxy = Playing | Unused | Listening | Watching
+    deriving (Show, Read, Enum, Generic)
+
+instance FromJSON ActTypeProxy
+
+
+-- | Represents an activity for the bot
+data BotActivity = BotActivity ActTypeProxy Text
+
+instance FromJSON BotActivity where
+    parseJSON = withObject "BotActivity" $ \v -> BotActivity
+                    <$> v .: "type"
+                    <*> v .: "text"
