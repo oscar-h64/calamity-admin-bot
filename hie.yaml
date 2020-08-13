@@ -1,0 +1,10 @@
+cradle:
+    stack:
+    - path: './app'
+      component: 'calamity-admin-bot:exe:calamity-admin-bot'
+    - path: './src'
+      component: 'calamity-admin-bot:lib'
+
+dependencies:
+- stack.yaml
+- package.yaml
