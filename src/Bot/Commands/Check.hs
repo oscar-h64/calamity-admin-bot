@@ -15,7 +15,7 @@ module Bot.Commands.Check (
 import           Calamity.Commands.Dsl ( DSLState, requiresPure )
 import           Data.Flags            ( (.*.) )
 import qualified Data.Text.Lazy        as L ( Text )
-import qualified Data.Vector.Unboxed   as V ( elem )
+import qualified Data.Vector.Unboxing  as V ( elem )
 
 import           Bot.Import
 
@@ -31,7 +31,7 @@ testPermission permission ctx = do
 testRoles :: [Snowflake Role] -> CommandContext -> Maybe L.Text
 testRoles roles ctx = do
     member <- ctx ^. #member
-    if any (`V.elem` member ^. #roles) roles then
+    if any (`V.elem` (member ^. #roles)) roles then
         Nothing
     else
         Just "You do not have permission to do that"

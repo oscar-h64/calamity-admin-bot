@@ -15,8 +15,9 @@ module Bot.Config (
 
 import           Prelude
 
-import           Calamity            ( Activity, Channel, Message, Role,
+import           Calamity            ( Activity(..), Channel, Message, Role,
                                        Snowflake (..), Token (..), activity )
+import qualified Calamity            as AT ( ActivityType(..) )
 
 import           Data.Aeson
 import qualified Data.HashMap.Strict as HMS
@@ -73,22 +74,24 @@ instance FromJSON BotConfig where
                     <*> pure Nothing
                     <*> (fmap (M.mapKeys Snowflake) <$> v .:? "react-roles-manual")
         where
-            makeActivity (BotActivity atype atext) = activity (fromStrict atext)
-                $ toEnum $ fromEnum atype
+            makeActivity (BotActivity atype atext) =
+                activity (fromStrict atext) $ actProxyToAct atype
 
 
 -- IDs are converted to snowflake after reading rather than reading `Snowflake a`
 -- directly as it removes the requirement to put quotes around IDs
 
 -- FromJSON type for ActivityType is numbers. This gives them
--- appropriate names. Note unused is there because the streaming
--- option says playing and says live on twitch. Since there is
--- no ability to add links with the bot this would be stupid
-data ActTypeProxy = Playing | Unused | Listening | Watching
-    deriving (Show, Read, Enum, Generic)
+-- appropriate names
+data ActTypeProxy = Playing | Listening | Watching
+    deriving (Show, Read, Generic)
 
 instance FromJSON ActTypeProxy
 
+actProxyToAct :: ActTypeProxy -> AT.ActivityType
+actProxyToAct Playing = AT.Game
+actProxyToAct Listening = AT.Listening
+actProxyToAct Watching = AT.Custom
 
 -- | Represents an activity for the bot
 data BotActivity = BotActivity ActTypeProxy Text

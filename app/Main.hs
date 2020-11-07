@@ -21,6 +21,9 @@ import qualified Data.Text.Lazy                 as L
 import           Data.Yaml                      ( decodeFileEither,
                                                   prettyPrintParseException )
 
+import           Di                             ( new )
+import           DiPolysemy                     ( runDiToIO )
+
 import qualified Polysemy                       as P
 import qualified Polysemy.Reader                as P
 
@@ -78,7 +81,8 @@ botCommands toMuteRoles = do
         command @'[Snowflake User, ActionReason] "kick" kick
 
 runBot :: BotConfig -> IO ()
-runBot conf = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetricsNoop . useConstantPrefix "!"
+runBot conf = new $ \di -> 
+    void . P.runFinal . P.embedToFinal . runDiToIO di . runCacheInMemory . runMetricsNoop . useConstantPrefix "!"
     $ runBotIO (bcBotSecret conf) $ P.runReader conf $ do
         -- Commands:
         addCommands $ botCommands $ bcToMuteRoles conf
@@ -95,6 +99,9 @@ runBot conf = void . P.runFinal . P.embedToFinal . runCacheInMemory . runMetrics
 
         -- Message Delete:
         react @'MessageDeleteEvt onMessageDelete
+
+        -- Reaction Added:
+        react @'RawMessageReactionAddEvt onReactionAdd
 
         -- Command Error Event
         react @('CustomEvt "command-error" (CommandContext, CommandError)) $ \(ctx, e) -> do

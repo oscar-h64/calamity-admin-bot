@@ -6,16 +6,16 @@
 --                                                                            --
 -- Copyright 2020 Oscar Harris (oscar@oscar-h.com)                            --
 --------------------------------------------------------------------------------
-module Bot.Events (
-    onReady,
-    onMessageCreate,
-    onMessageEdit,
-    onMessageDelete,
-    onReactionAdd
-) where
 
-import Bot.Events.MessageCreate
-import Bot.Events.MessageDelete
-import Bot.Events.MessageEdit
-import Bot.Events.ReactionAdd
-import Bot.Events.Ready
+module Bot.Events.ReactionAdd ( onReactionAdd ) where
+
+--------------------------------------------------------------------------------
+
+import Bot.Import
+
+--------------------------------------------------------------------------------
+
+onReactionAdd :: BotReader r => Reaction -> Sem r ()
+onReactionAdd = const $ pure ()
+
+--------------------------------------------------------------------------------
