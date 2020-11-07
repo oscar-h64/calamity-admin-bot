@@ -54,6 +54,7 @@ default-extensions:
 - ConstraintKinds
 - GADTs
 - DeriveGeneric
+- RecordWildCards
 
 library:
   source-dirs: src

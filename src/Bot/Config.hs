@@ -8,6 +8,8 @@
 --------------------------------------------------------------------------------
 
 module Bot.Config (
+    ReactRoleList(..),
+    ReactRoleWatchlist,
     BotConfig(..)
 ) where
 
@@ -15,12 +17,11 @@ module Bot.Config (
 
 import           Prelude
 
-import           Calamity            ( Activity(..), Channel, Message, Role,
+import           Calamity            (Emoji,  Activity(..), Channel, Message, Role,
                                        Snowflake (..), Token (..), activity )
 import qualified Calamity            as AT ( ActivityType(..) )
 
 import           Data.Aeson
-import qualified Data.HashMap.Strict as HMS
 import qualified Data.Map            as M
 import           Data.Maybe          ( fromMaybe )
 import           Data.Text           ( Text )
@@ -34,13 +35,13 @@ import           GHC.Generics
 -- whether to allow more than 1 role, and which reactions map to which roles
 data ReactRoleList = ReactRoleList {
     rrlOnlyOne :: Bool,
-    rrlRoles   :: HMS.HashMap Text (Snowflake Role)
+    rrlRoles   :: M.Map (Snowflake Emoji) (Snowflake Role)
 }
 
 instance FromJSON ReactRoleList where
     parseJSON = withObject "ReactRoleList" $ \v -> ReactRoleList
                     <$> v .: "only-one"
-                    <*> (HMS.map Snowflake <$> v .: "roles")
+                    <*> ((M.mapKeys Snowflake . M.map Snowflake) <$> v .: "roles")
 
 --------------------------------------------------------------------------------
 
@@ -60,7 +61,7 @@ data BotConfig = BotConfig {
     bcBannedFragments :: [Text],
     bcActivity        :: Maybe Activity,
     bcReactRolesAuto  :: Maybe (), -- create messages before starting reader - update watchlist
-    bcReactRolesWatch :: Maybe ReactRoleWatchlist
+    bcReactRolesWatch :: ReactRoleWatchlist
 }
 
 instance FromJSON BotConfig where
@@ -74,7 +75,7 @@ instance FromJSON BotConfig where
                     <*> (fromMaybe [] <$> v .:? "banned-fragments")
                     <*> (fmap makeActivity <$> v .:? "activity")
                     <*> pure Nothing
-                    <*> (fmap (M.mapKeys Snowflake) <$> v .:? "react-roles-manual")
+                    <*> (M.mapKeys Snowflake <$> v .:? "react-roles-manual" .!= M.empty)
         where
             makeActivity (BotActivity atype atext) =
                 activity (fromStrict atext) $ actProxyToAct atype

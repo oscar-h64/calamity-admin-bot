@@ -11,11 +11,18 @@ module Bot.Events.ReactionAdd ( onReactionAdd ) where
 
 --------------------------------------------------------------------------------
 
+import qualified Data.Map as M
+
+import Bot.Config
 import Bot.Import
 
 --------------------------------------------------------------------------------
 
 onReactionAdd :: BotReader r => Reaction -> Sem r ()
-onReactionAdd = const $ pure ()
+onReactionAdd Reaction{..} = do
+    roles <- asks bcReactRolesWatch
+    case M.lookup messageID roles of
+        Nothing -> pure ()
+        Just ReactRoleList{..} -> pure ()
 
 --------------------------------------------------------------------------------
