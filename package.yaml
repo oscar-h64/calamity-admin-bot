@@ -30,12 +30,15 @@ dependencies:
 - data-default
 - colour
 - time
-- vector
+- unboxing-vector
 - data-flags
 - aeson
 - yaml
 - casing
 - suffix-time-reader
+- containers
+- unordered-containers
+- di
 
 default-extensions:
 - OverloadedStrings
@@ -51,6 +54,7 @@ default-extensions:
 - ConstraintKinds
 - GADTs
 - DeriveGeneric
+- RecordWildCards
 
 library:
   source-dirs: src

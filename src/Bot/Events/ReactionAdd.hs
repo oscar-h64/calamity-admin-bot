@@ -7,20 +7,22 @@
 -- Copyright 2020 Oscar Harris (oscar@oscar-h.com)                            --
 --------------------------------------------------------------------------------
 
-module Bot.Events (
-    onReady,
-    onMessageCreate,
-    onMessageEdit,
-    onMessageDelete,
-    onReactionAdd
-) where
+module Bot.Events.ReactionAdd ( onReactionAdd ) where
 
 --------------------------------------------------------------------------------
 
-import Bot.Events.MessageCreate
-import Bot.Events.MessageDelete
-import Bot.Events.MessageEdit
-import Bot.Events.ReactionAdd
-import Bot.Events.Ready
+import qualified Data.Map as M
+
+import Bot.Config
+import Bot.Import
+
+--------------------------------------------------------------------------------
+
+onReactionAdd :: BotReader r => Reaction -> Sem r ()
+onReactionAdd Reaction{..} = do
+    roles <- asks bcReactRolesWatch
+    case M.lookup messageID roles of
+        Nothing -> pure ()
+        Just ReactRoleList{..} -> pure ()
 
 --------------------------------------------------------------------------------

@@ -6,12 +6,17 @@
 --                                                                            --
 -- Copyright 2020 Oscar Harris (oscar@oscar-h.com)                            --
 --------------------------------------------------------------------------------
+
 module Bot.Events.MessageDelete where
 
-import Data.Default
+--------------------------------------------------------------------------------
+
 import Data.Colour.Names
+import Data.Default
 
 import Bot.Import
+
+--------------------------------------------------------------------------------
 
 onMessageDelete :: BotReader r => Message -> Sem r ()
 onMessageDelete m = do
@@ -20,7 +25,7 @@ onMessageDelete m = do
         author   = m ^. #author
         channel  = m ^. #channelID
         origtime = showtl $ m ^. #timestamp
-        embed = def & #title ?~ "Message Deleted" 
+        embed = def & #title ?~ "Message Deleted"
                     & #color ?~ tomato
                     & #fields .~ [
                         EmbedField "Channel" (mention channel) True,
@@ -29,3 +34,5 @@ onMessageDelete m = do
                         EmbedField "Content" text False
                     ]
     void $ tell @Embed lc embed
+
+--------------------------------------------------------------------------------

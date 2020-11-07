@@ -25,7 +25,7 @@ This is a discord bot written in Haskell using the [calamity library](https://ha
 See [here](https://github.com/oscar-h64/calamity-admin-bot/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement) for a list of features planned. If there is a feature you would like feel free to open an issue (or a pull request!) with the label `enhancement` 
 
 ## Setup
-1. Copy `config/settings.yaml.sample` to `config/settings.yaml` and enter the settings for your server (the file is commented to assist with this)
+1. Copy `config/settings.sample.yaml` to `config/settings.yaml` and enter the settings for your server (the file is commented to assist with this)
 2. Install the Haskell `stack` tool - see [here](https://docs.haskellstack.org/en/stable/install_and_upgrade/)
 3. Clone this repository:
 ```bash

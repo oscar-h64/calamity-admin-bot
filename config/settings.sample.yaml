@@ -1,0 +1,84 @@
+# Enter your bot secret here
+bot-secret: BOT_SECRET
+
+# Enter the ID of the logging channel here
+log-channel: 000000000000000000
+
+# Enter the ID of the mute role here
+mute-role: 000000000000000000
+
+# Enter the IDs of the roles allowed to mute/tempmute/unmute users
+to-mute-roles:
+- 000000000000000000
+- 000000000000000001
+
+# Enter the server invite link here
+invite-link: https://discord.gg/XXXXXXX
+
+# Enter the name of your server here
+server-name: Example Server
+
+# Enter banned fragments (phrases, words or parts of words) here. To disable
+# content filtering delete this block
+banned-fragments:
+- word1
+- word2
+
+# Enter the details for the bot activity here. If you do not want an activity 
+# then delete this block
+activity:
+  # The type determines the prefix discord adds. Available options:
+  # - Playing
+  # - Listening
+  # - Watching
+  type: Playing
+  # Activity text 
+  text: a game
+
+# Setup react roles here for automatic mode (where the bot sends the message
+# members react to). If you do not want to use this feature delete this block
+react-roles-auto:
+- # description of this role set - used as a heading in the message 
+  description: Courses
+  # channel to send message in
+  channel-id: 000000000000000000
+  # whether members can select more than 1 role in this set
+  only-one: false
+  # roles 
+  roles:
+  - emoji1:
+      # Description of the role assigned by this emoji
+      description: Role 1
+      # ID of the role to assign 
+      role-id: 000000000000000000
+  - emoji2:
+      description: Role 2
+      role-id: 000000000000000001
+
+- description: Accommodation
+  only-one: true
+  roles:
+  - emoji1:
+      description: Role 1
+      role-id: 000000000000000000
+  - emoji2:
+      description: Role 2
+      role-id: 000000000000000001
+
+# Setup react roles here for menual mode (where the bot watches for reactions
+# on a specific existing message). If you do not want to use this feature 
+# delete this block
+react-roles-manual:
+  000000000000000000: # message ID of message to watch
+    # whether members can select more than 1 role
+    only-one: false
+    # roles that can be assigned on this message. Use the emoji name as the
+    # key and the role ID as the value
+    roles:
+      emoji1: 000000000000000000
+      emoji2: 000000000000000001
+  000000000000000001: # message ID of message to watch
+    only-one: true
+    roles:
+      emoji1: 000000000000000000
+      emoji3: 000000000000000001

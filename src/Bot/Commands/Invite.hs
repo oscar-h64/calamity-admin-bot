@@ -6,14 +6,21 @@
 --                                                                            --
 -- Copyright 2020 Oscar Harris (oscar@oscar-h.com)                            --
 --------------------------------------------------------------------------------
+
 module Bot.Commands.Invite where
+
+--------------------------------------------------------------------------------
 
 import qualified Polysemy        as P
 import qualified Polysemy.Reader as P
 
-import Bot.Import
+import           Bot.Import
+
+--------------------------------------------------------------------------------
 
 invite :: BotReader r => CommandContext -> Sem r ()
 invite ctx = do
     link <- bcInviteLink <$> ask
     void $ tellt ctx (fromStrict $ "Invite Link: " <> link)
+
+--------------------------------------------------------------------------------

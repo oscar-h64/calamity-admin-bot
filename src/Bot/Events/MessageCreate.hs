@@ -6,14 +6,19 @@
 --                                                                            --
 -- Copyright 2020 Oscar Harris (oscar@oscar-h.com)                            --
 --------------------------------------------------------------------------------
+
 module Bot.Events.MessageCreate where
 
-import qualified Calamity.HTTP.Reason as CR ( reason ) 
+--------------------------------------------------------------------------------
 
-import           Data.Colour.Names          ( cornflowerblue )
-import           Data.Default               ( def )
+import qualified Calamity.HTTP.Reason as CR ( reason )
+
+import           Data.Colour.Names    ( cornflowerblue )
+import           Data.Default         ( def )
 
 import           Bot.Import
+
+--------------------------------------------------------------------------------
 
 onMessageCreate :: BotReader r => Message -> Sem r ()
 onMessageCreate m = do
@@ -34,7 +39,7 @@ onMessageCreate m = do
                                 EmbedField "Sent" origtime True,
                                 EmbedField "Content" ltext False
                         ]
-                        
+
         lc <- bcLogChannel <$> ask
         tell @Embed lc embed
 
@@ -42,3 +47,5 @@ onMessageCreate m = do
 
     else
         pure ()
+
+--------------------------------------------------------------------------------

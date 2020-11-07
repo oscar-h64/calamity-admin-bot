@@ -6,6 +6,7 @@
 --                                                                            --
 -- Copyright 2020 Oscar Harris (oscar@oscar-h.com)                            --
 --------------------------------------------------------------------------------
+
 module Bot.Commands (
     ping,
     invite,
@@ -18,8 +19,12 @@ module Bot.Commands (
     kick
 ) where
 
-import Bot.Commands.Ping
-import Bot.Commands.Invite
-import Bot.Commands.Mute
+--------------------------------------------------------------------------------
+
 import Bot.Commands.Ban
+import Bot.Commands.Invite
 import Bot.Commands.Kick
+import Bot.Commands.Mute
+import Bot.Commands.Ping
+
+--------------------------------------------------------------------------------
