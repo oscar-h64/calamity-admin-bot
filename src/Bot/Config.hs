@@ -42,10 +42,12 @@ instance FromJSON ReactRoleList where
                     <$> v .: "only-one"
                     <*> (HMS.map Snowflake <$> v .: "roles")
 
+--------------------------------------------------------------------------------
 
 -- | Map of message IDs to role list value
 type ReactRoleWatchlist = M.Map (Snowflake Message) ReactRoleList
 
+--------------------------------------------------------------------------------
 
 -- | The configuration for the bot loaded from the config file
 data BotConfig = BotConfig {
@@ -77,6 +79,7 @@ instance FromJSON BotConfig where
             makeActivity (BotActivity atype atext) =
                 activity (fromStrict atext) $ actProxyToAct atype
 
+--------------------------------------------------------------------------------
 
 -- IDs are converted to snowflake after reading rather than reading `Snowflake a`
 -- directly as it removes the requirement to put quotes around IDs
@@ -93,6 +96,8 @@ actProxyToAct Playing = AT.Game
 actProxyToAct Listening = AT.Listening
 actProxyToAct Watching = AT.Custom
 
+--------------------------------------------------------------------------------
+
 -- | Represents an activity for the bot
 data BotActivity = BotActivity ActTypeProxy Text
 
@@ -100,3 +105,5 @@ instance FromJSON BotActivity where
     parseJSON = withObject "BotActivity" $ \v -> BotActivity
                     <$> v .: "type"
                     <*> v .: "text"
+
+--------------------------------------------------------------------------------

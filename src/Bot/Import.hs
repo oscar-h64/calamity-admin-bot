@@ -6,9 +6,12 @@
 --                                                                            --
 -- Copyright 2020 Oscar Harris (oscar@oscar-h.com)                            --
 --------------------------------------------------------------------------------
+
 module Bot.Import (
     module Bot.Import,
 ) where
+
+--------------------------------------------------------------------------------
 
 import           Calamity                  as Bot.Import
 import qualified Calamity.Commands.Context as CC ( Context (..) )
@@ -31,6 +34,8 @@ import           TextShow                  as Bot.Import ( showt, showtl )
 
 import           Bot.Config                as Bot.Import
 
+--------------------------------------------------------------------------------
+
 type BotReader r = (P.Member (Reader BotConfig) r, BotC r)
 
 info, debug :: BotC r => Text -> Sem r ()
@@ -42,3 +47,5 @@ tellt t m = tell t $ toStrict m
 
 type CommandContext = CC.Context
 type ActionReason = Maybe (KleenePlusConcat Text)
+
+--------------------------------------------------------------------------------

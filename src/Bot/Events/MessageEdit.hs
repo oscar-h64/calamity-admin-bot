@@ -6,13 +6,18 @@
 --                                                                            --
 -- Copyright 2020 Oscar Harris (oscar@oscar-h.com)                            --
 --------------------------------------------------------------------------------
+
 module Bot.Events.MessageEdit where
+
+--------------------------------------------------------------------------------
 
 import Data.Colour.Names
 import Data.Default
 
 import Bot.Events.MessageCreate
 import Bot.Import
+
+--------------------------------------------------------------------------------
 
 onMessageEdit :: BotReader r => Message -> Message -> Sem r ()
 onMessageEdit m1 m2 = do
@@ -37,3 +42,5 @@ onMessageEdit m1 m2 = do
     tell @Embed lc embed
 
     onMessageCreate m2
+
+--------------------------------------------------------------------------------

@@ -6,10 +6,13 @@
 --                                                                            --
 -- Copyright 2020 Oscar Harris (oscar@oscar-h.com)                            --
 --------------------------------------------------------------------------------
+
 module Bot.Commands.Admin (
     AdminLoggable(..),
     doAdminAction
 ) where
+
+--------------------------------------------------------------------------------
 
 import qualified Calamity.HTTP.Reason as CR ( reason )
 
@@ -21,6 +24,8 @@ import qualified Polysemy             as P
 
 import           Bot.Import
 
+--------------------------------------------------------------------------------
+
 class AdminLoggable a where
     colour :: Colour Double
     word :: Text
@@ -28,7 +33,7 @@ class AdminLoggable a where
     tellContext :: Bool
     tellContext = True
 
-type ToInvoke = Guild -> Maybe Text -> GuildRequest ()
+--------------------------------------------------------------------------------
 
 doAdminAction :: forall action r u
                . (AdminLoggable action, BotReader r, Mentionable u, HasID User u)
@@ -36,7 +41,7 @@ doAdminAction :: forall action r u
               -> u
               -> Maybe Text
               -> [EmbedField]
-              -> ToInvoke
+              -> (Guild -> Maybe Text -> GuildRequest ())
               -> Sem r ()
 doAdminAction ctx u reasonM fields toInvoke = case ctx ^. #guild of
     Nothing -> void $ tellt ctx "Administrator actions must be performed in a guild"
@@ -73,3 +78,5 @@ doAdminAction ctx u reasonM fields toInvoke = case ctx ^. #guild of
                                     : EmbedField "Reason" (fromStrict rna) False
                                     : fields
         void $ tell @Embed (bcLogChannel conf) embed
+
+--------------------------------------------------------------------------------

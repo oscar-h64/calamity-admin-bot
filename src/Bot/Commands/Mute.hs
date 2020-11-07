@@ -6,11 +6,14 @@
 --                                                                            --
 -- Copyright 2020 Oscar Harris (oscar@oscar-h.com)                            --
 --------------------------------------------------------------------------------
+
 module Bot.Commands.Mute (
     Bot.Commands.Mute.mute,
     tempmute,
     unmute
 ) where
+
+--------------------------------------------------------------------------------
 
 import           Control.Concurrent   ( threadDelay )
 
@@ -24,6 +27,8 @@ import qualified Polysemy             as P ( embed )
 
 import           Bot.Commands.Admin
 import           Bot.Import
+
+--------------------------------------------------------------------------------
 
 data Mute
 data Tempmute
@@ -50,6 +55,8 @@ instance AdminLoggable Untempmute where
     word = "Unmuted"
     phrase = "unmuted in"
     tellContext = False
+
+--------------------------------------------------------------------------------
 
 mute :: BotReader r => CommandContext -> Snowflake User -> Maybe Text -> Sem r ()
 mute ctx user reason = do
@@ -97,3 +104,5 @@ doUnmute ctx user reason = do
 
 unmute :: BotReader r => CommandContext -> Snowflake User -> Maybe Text -> Sem r ()
 unmute = doUnmute @Unmute
+
+--------------------------------------------------------------------------------

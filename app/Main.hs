@@ -6,9 +6,12 @@
 --                                                                            --
 -- Copyright 2020 Oscar Harris (oscar@oscar-h.com)                            --
 --------------------------------------------------------------------------------
+
 {-# LANGUAGE TypeApplications #-}
 
 module Main where
+
+--------------------------------------------------------------------------------
 
 import           Calamity.Cache.InMemory        ( runCacheInMemory )
 import           Calamity.Commands
@@ -33,6 +36,8 @@ import           Bot.Commands
 import           Bot.Commands.Check
 import           Bot.Events
 import           Bot.Import
+
+--------------------------------------------------------------------------------
 
 -- | `botCommands` @toMuteRoles@ represents a list of commands the bot supports.
 -- Mute related commands are restricted to users with at least one role from the
@@ -119,3 +124,4 @@ main = do
         Left err   -> putStrLn $ prettyPrintParseException err
         Right conf -> runBot conf
 
+--------------------------------------------------------------------------------

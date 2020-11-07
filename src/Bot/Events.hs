@@ -6,6 +6,7 @@
 --                                                                            --
 -- Copyright 2020 Oscar Harris (oscar@oscar-h.com)                            --
 --------------------------------------------------------------------------------
+
 module Bot.Events (
     onReady,
     onMessageCreate,
@@ -14,8 +15,12 @@ module Bot.Events (
     onReactionAdd
 ) where
 
+--------------------------------------------------------------------------------
+
 import Bot.Events.MessageCreate
 import Bot.Events.MessageDelete
 import Bot.Events.MessageEdit
 import Bot.Events.ReactionAdd
 import Bot.Events.Ready
+
+--------------------------------------------------------------------------------
